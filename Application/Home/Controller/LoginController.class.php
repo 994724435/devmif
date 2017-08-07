@@ -7,7 +7,7 @@ class LoginController extends Controller{
     public function login(){
         if($_POST){
             $menber =M('menber');
-            $res = $menber->where(array('name'=>$_POST['name'],'pwd'=>$_POST['pwd']))->select();
+            $res = $menber->where(array('tel'=>$_POST['name'],'pwd'=>$_POST['pwd']))->select();
             if($res[0]){
                 session_start();
                 session('name',$_POST['name']);
@@ -17,6 +17,10 @@ class LoginController extends Controller{
                 echo "<script>alert('用户名或密码错误');</script>";
             }
         }
+        $this->display();
+    }
+
+    public function forgetPwd(){
         $this->display();
     }
 }

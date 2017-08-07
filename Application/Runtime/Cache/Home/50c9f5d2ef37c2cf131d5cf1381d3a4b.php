@@ -1,50 +1,50 @@
 <?php if (!defined('THINK_PATH')) exit();?><!doctype html>
-<html>
+<html class="no-js">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="description" content="">
+	<meta name="keywords" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+	<title>登录</title>
+	<meta name="renderer" content="webkit">
+	<meta http-equiv="Cache-Control" content="no-siteapp"/>
+	<link rel="stylesheet" href="/Public/Home/css/style.css">
+	<link rel="stylesheet" href="/Public/Home/css/amazeui.min.css">
+	<link rel="stylesheet" href="/Public/Home/css/app.css">
+</head>
+<body>
+<div class="am-g myapp-login">
+	<div class="myapp-login-bg">
+		<div class="myapp-login-logo">
+			<img src="/Public/Home/images/logo.gif" alt="" class="logoI">
+		</div>
 
-	<head>
-		<meta charset="UTF-8">
-		<title></title>
-		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
-		<meta name="apple-mobile-web-app-capable" content="yes">
-		<meta name="apple-mobile-web-app-status-bar-style" content="black">
-		<link rel="stylesheet" href="/register/Public/Home/css/aui.min.css">
-		<link rel="stylesheet" href="/register/Public/Home/css/style.css">
-		<link rel="stylesheet" href="/register/Public/Home/css/mui.ttf">
-	    <script type="text/javascript" src="/register/Public/Home/js/aui.js"></script>
-	    <script type="text/javascript" src="/register/Public/Home/js/jquery-3.1.1.min.js"></script>
-		<style>
-			.mui-input-row label{width: 15%;}
-			.mui-input-row label .mui-icon{position: relative;top: -2px;color:#1b7ac0 ;}
-			.mui-input-row label~input{width: 85%;font-size: 14px;text-indent: 8px;font-family: "微软雅黑";}
-			.mui-btn-block{padding: 8px 0;width: 90%;margin: 30px auto;font-size: 15px;}
-			.mui-btn-primary{background: #1b7ac0;border-color:#1b7ac0;}
-			.logo{display: block;width:153px;margin: 40px auto 10px;}
-			.logotext{text-align: center;margin: 0;color: #000;font-family: "微软雅黑";}
-			.mui-input-group{margin-top: 25px;}
-		</style>
-	</head>
+		<div class="am-u-sm-10 myapp-login-form">
+			<form class="am-form"  method="post" id="login" enctype="multipart/form-data">
+				<!-- <fieldset> -->
+				<div class="am-form-group">
+					<input type="text" class="" name="name" placeholder="用户名">
+				</div>
+				<div class="am-form-group">
+					<input type="password" class=""  name="pwd" placeholder="密码">
+				</div>
+				<!--     <div class="am-form-group">
+                      <input type="text" class=""  placeholder="验证码">
+                    </div> -->
 
-	<body>
-		<!--<header class="mui-bar mui-bar-nav">
-		  <h1 class="mui-title">登录</h1>
-		</header>-->
-		<div class="mui-content">
-			 <img src="/register/Public/Home/images/sitelogo.png" class="logo"/>
-			 <!-- <p class="logotext">物流通</p> -->
-			<form class="mui-input-group" action="" method="post" enctype="multipart/form-data">
-			<div class="mui-input-row">
-				<label><span class="mui-icon mui-icon-person"></span></label>
-				<input type="text" name="name" class="mui-input-clear" placeholder="请输入用户名"  id="user">
-			</div>
-			<div class="mui-input-row">
-				<label><span class="mui-icon mui-icon-locked"></span></label>
-				<input type="password" name="pwd" class="mui-input-clear" placeholder="请输入密码" id="pwd">
-			</div>
-				<button class="mui-btn mui-btn-primary mui-btn-block" id="login">立即登录</button>
+				<p><button type="submit" class="am-btn am-btn-default">登录</button></p>
+				<div class="login-text">
+					<span onclick="location.href='forgetPwd.html'">忘记密码</span>
+				</div>
+				<!-- </fieldset> -->
 			</form>
-			<!--<button class="mui-btn mui-btn-primary mui-btn-block" id="login">立即登录</button>-->
+		</div>
+	</div>
+</div>
+<!-- <script src="js/jquery.min.js"></script>
 
-		</div>	
-	</body>
-
+<script src="js/amazeui.min.js"></script>
+<script src="js/app.js"></script> -->
+</body>
 </html>

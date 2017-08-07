@@ -1,22 +1,22 @@
 /*
 Navicat MySQL Data Transfer
 
-Source Server         : 本机
-Source Server Version : 50553
+Source Server         : localhost
+Source Server Version : 50540
 Source Host           : localhost:3306
 Source Database       : devmif
 
 Target Server Type    : MYSQL
-Target Server Version : 50553
+Target Server Version : 50540
 File Encoding         : 65001
 
-Date: 2017-08-07 20:49:05
+Date: 2017-08-07 23:22:48
 */
 
 SET FOREIGN_KEY_CHECKS=0;
 
 -- ----------------------------
--- Table structure for `p_article`
+-- Table structure for p_article
 -- ----------------------------
 DROP TABLE IF EXISTS `p_article`;
 CREATE TABLE `p_article` (
@@ -29,18 +29,19 @@ CREATE TABLE `p_article` (
   `admin` varchar(64) DEFAULT NULL,
   `num` int(11) DEFAULT '1',
   PRIMARY KEY (`aid`)
-) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of p_article
 -- ----------------------------
 INSERT INTO `p_article` VALUES ('1', '网站首页', '1', 'MIF国际集团（The Core Group）是全方位跨国金融服务集团，由美国矽谷的金融与科技人士共同创立，营运据点横跨北美与大中华地区。集团致力于发展金融科技（FinTech）并结合专业金融人才，提供给客户便捷、安全的金融服务<br />', '2017-08-06 12:27:53', '2017-08-06', 'admin', '1');
-INSERT INTO `p_article` VALUES ('2', '公司简介标题', '2', 'asdfasdf', '2017-08-06 12:43:59', '2017-08-06', 'admin', '1');
+INSERT INTO `p_article` VALUES ('2', '公司简介标题', '2', '公告', '2017-08-06 12:43:59', '2017-08-06', 'admin', '1');
 INSERT INTO `p_article` VALUES ('5', '值班团队标题', '3', 'sadfasdfasdfa34343', '2017-08-06 12:44:13', '2017-08-06', 'admin', '1');
 INSERT INTO `p_article` VALUES ('6', '分析专家李云龙标题', '4', '分析专家分析专家分析专家分析专家分析专家', '2017-08-06 12:43:34', '2017-08-06', 'admin', '1');
+INSERT INTO `p_article` VALUES ('7', '公司简介', '5', '公司简介', '2017-08-06 12:43:34', '2017-08-06', 'admin', '1');
 
 -- ----------------------------
--- Table structure for `p_incomelog`
+-- Table structure for p_incomelog
 -- ----------------------------
 DROP TABLE IF EXISTS `p_incomelog`;
 CREATE TABLE `p_incomelog` (
@@ -1566,7 +1567,7 @@ INSERT INTO `p_incomelog` VALUES ('1552', '1', '1', '注册收入', '2017-06-07'
 INSERT INTO `p_incomelog` VALUES ('1553', '2', '1', '充值', '2017-08-06', '2017-08-06 14:33:32', 'admin', '8', '33');
 
 -- ----------------------------
--- Table structure for `p_menber`
+-- Table structure for p_menber
 -- ----------------------------
 DROP TABLE IF EXISTS `p_menber`;
 CREATE TABLE `p_menber` (
@@ -1595,12 +1596,12 @@ CREATE TABLE `p_menber` (
 -- ----------------------------
 -- Records of p_menber
 -- ----------------------------
-INSERT INTO `p_menber` VALUES ('1', '18883287644', '123456789', null, '4', '613.00', '10300.60', '0', null, null, '123456', '100.00', null, null, null, null, null, null, null);
-INSERT INTO `p_menber` VALUES ('6', '13217620979', 'cillia516', null, '4', '200.00', '3690.00', '1', '2017-04-05 20:33:23', '2017-04-05', 'cillia516', '0', null, null, null, null, null, null, null);
-INSERT INTO `p_menber` VALUES ('7', '13778613202', '888888', null, '4', '0', '4930.00', '1', '2017-04-05 20:34:37', '2017-04-05', '', '0', null, null, null, null, null, null, null);
-INSERT INTO `p_menber` VALUES ('8', '15281205777', '863388', null, '4', '1', '10523.00', '1', '2017-04-05 20:35:05', '2017-04-05', '864288', '33', null, null, null, null, null, null, null);
-INSERT INTO `p_menber` VALUES ('9', '15183446404', '060917', null, '4', '2.00', '3690.00', '1', '2017-04-05 20:38:18', '2017-04-05', '', '0', null, null, null, null, null, null, null);
-INSERT INTO `p_menber` VALUES ('11', '15983430169', 'wuwenjing1', null, '4', '0', '8536.00', '8', '2017-04-06 17:34:37', '2017-04-06', '', '0', null, null, null, null, null, null, null);
+INSERT INTO `p_menber` VALUES ('1', '李海龙', '1234561', '18883287644', '4', '613.00', '10300.60', '0', null, null, '1234561', '100.00', '李海龙1', '18883255551', '李海龙1', '95273231', '543252541', '李海龙1', '河南1');
+INSERT INTO `p_menber` VALUES ('6', '13217620979', 'cillia516', '18883287644', '4', '200.00', '3690.00', '1', '2017-04-05 20:33:23', '2017-04-05', 'cillia516', '0', null, null, null, null, null, null, null);
+INSERT INTO `p_menber` VALUES ('7', '13778613202', '888888', '18883287644', '4', '0', '4930.00', '1', '2017-04-05 20:34:37', '2017-04-05', '', '0', null, null, null, null, null, null, null);
+INSERT INTO `p_menber` VALUES ('8', 'qw', '863388', '15281205777', '4', '1', '10523.00', '1', '2017-04-05 20:35:05', '2017-04-05', '864288', '33', null, null, null, null, null, null, null);
+INSERT INTO `p_menber` VALUES ('9', '15183446404', '060917', '18883287644', '4', '2.00', '3690.00', '1', '2017-04-05 20:38:18', '2017-04-05', '', '0', null, null, null, null, null, null, null);
+INSERT INTO `p_menber` VALUES ('11', '15983430169', 'wuwenjing1', '18883287644', '4', '0', '8536.00', '8', '2017-04-06 17:34:37', '2017-04-06', '', '0', null, null, null, null, null, null, null);
 INSERT INTO `p_menber` VALUES ('12', '13678345564', '888888', null, '3', '3830', '130.00', '7', '2017-04-06 17:35:54', '2017-04-06', '888888', '0', null, null, null, null, null, null, null);
 INSERT INTO `p_menber` VALUES ('13', '18981524252', '648810', null, '4', '10', '2575.60', '11', '2017-04-06 17:38:54', '2017-04-06', '351895', '0', null, null, null, null, null, null, null);
 INSERT INTO `p_menber` VALUES ('14', '18808143241', 'jh770707', null, '1', '0', '230.40', '13', '2017-04-12 10:30:59', '2017-04-12', '', '0', null, null, null, null, null, null, null);
@@ -1613,7 +1614,7 @@ INSERT INTO `p_menber` VALUES ('20', '18349622625', '888888', null, '3', '0', '1
 INSERT INTO `p_menber` VALUES ('23', '18883287999', '123', null, '0', '800', '0', '1', '2017-06-07 18:01:42', '2017-06-07', '123', '0', null, null, null, null, null, null, null);
 
 -- ----------------------------
--- Table structure for `p_orderlog`
+-- Table structure for p_orderlog
 -- ----------------------------
 DROP TABLE IF EXISTS `p_orderlog`;
 CREATE TABLE `p_orderlog` (
@@ -1663,7 +1664,7 @@ INSERT INTO `p_orderlog` VALUES ('43', '20', '3', '金卡会员', '36', '1', '20
 INSERT INTO `p_orderlog` VALUES ('45', '7', '3', '金卡会员', '36', '0', '201705272034009152', '2017-05-27 20:34:00', '1', '3000', null);
 
 -- ----------------------------
--- Table structure for `p_product`
+-- Table structure for p_product
 -- ----------------------------
 DROP TABLE IF EXISTS `p_product`;
 CREATE TABLE `p_product` (
@@ -1694,7 +1695,7 @@ INSERT INTO `p_product` VALUES ('6', '3', '234', '/register', '234', null, null,
 INSERT INTO `p_product` VALUES ('7', '萝卜种子', '萝卜种子', '/register/Public/Uploads/2017-05-31/592ec9fc43a05.png', '20', null, null, null, null, null, '1', '2017-05-31 21:49:48', '0');
 
 -- ----------------------------
--- Table structure for `p_user`
+-- Table structure for p_user
 -- ----------------------------
 DROP TABLE IF EXISTS `p_user`;
 CREATE TABLE `p_user` (

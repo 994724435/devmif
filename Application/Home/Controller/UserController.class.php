@@ -27,6 +27,14 @@ class UserController extends CommonController{
     * 完善资料
      */
     public function washan_data(){
+        if($_POST['pwd'] && $_POST['pwd2'] ){
+            $data = $_POST;
+            M("menber")->where(array('uid'=>session('uid')))->save($data);
+            echo "<script>";
+            echo "window.location.href='".__ROOT__."/index.php/Home/User/washan_data';";
+            echo "</script>";
+            exit;
+        }
         $this->display();
     }
 

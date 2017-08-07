@@ -46,7 +46,7 @@ class IndexController extends CommonController {
     public function gruop(){
         $article =M('article');
         $intro= $article->order('aid DESC')->where(array('type'=>3))->select();
-        $this->assign('intro',$intro);
+        $this->assign('intro',$intro[0]);
         $this->display();
     }
 
@@ -56,7 +56,7 @@ class IndexController extends CommonController {
     public function professor(){
         $article =M('article');
         $intro= $article->order('aid DESC')->where(array('type'=>4))->select();
-        $this->assign('intro',$intro);
+        $this->assign('intro',$intro[0]);
         $this->display();
     }
 

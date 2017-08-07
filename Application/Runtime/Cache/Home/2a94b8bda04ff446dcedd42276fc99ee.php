@@ -1,127 +1,73 @@
 <?php if (!defined('THINK_PATH')) exit();?><!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
-	<meta name="apple-mobile-web-app-capable" content="yes">
-	<meta name="apple-mobile-web-app-status-bar-style" content="black">
-	<title>我的收益</title>
-	<link rel="stylesheet" href="/register/Public/Home/css/aui.min.css">
-	<link rel="stylesheet" href="/register/Public/Home/css/index.css">
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>公司首页</title>
+	<link href="/Public/Home/css/bootstrap.min.css" rel="stylesheet">
+	<link href="/Public/Home/css/aui.min.css" rel="stylesheet">
+	<link href="/Public/Home/css/mui.picker.css" rel="stylesheet">
+	<link href="/Public/Home/css/mui.poppicker.css" rel="stylesheet">
+	<link href="/Public/Home/css/style.css" rel="stylesheet">
+	<script type="text/javascript" src="/Public/Home/js/jquery-3.1.1.min.js"></script>
+	<script type="text/javascript" src="/Public/Home/js/aui.js"></script>
+	<script type="text/javascript" src="/Public/Home/js/mui.picker.js"></script>
+	<script type="text/javascript" src="/Public/Home/js/mui.poppicker.js"></script>
+	<script type="text/javascript" src="/Public/Home/js/bootstrap.min.js"></script>
+	<style>
 
-	<!-- <script type="text/javascript" src="js/aui.js"></script> -->
-	<style type="text/css">
 	</style>
 </head>
 <body>
-	<header class="mui-bar mui-bar-nav">	
-		<h1 class="mui-title">我的收益</h1>
-	</header>
-	<div class="mui-content">
-		<ul class="tab">
-			<li>
-				<ul>
-					<li>充值钱包</li>
-					<li><?php echo ($userinfo["chargebag"]); ?><span>(元)</span></li>
-				</ul>
-			</li>
-			<li>
-				<ul>
-					<li>收益钱包</li>
-					<li><?php echo ($userinfo["incomebag"]); ?><span>(元)</span></li>
-				</ul>
-			</li>
-			<li>
-				<ul>
-					<li>昨日收益</li>
-					<li style="color: #04b6d4;"><?php echo ($yesterincome); ?></li>
-				</ul>
-			</li>
+<!-- 公共头部 -->
+<div class="container noPadding">
+    <nav class="navbar navbar-default mynavbar">
+        <div class="container-fluid">
+            <!--按钮-->
+            <div class="navbar-header">
+                <img src="/Public/Home/images/logo.gif" alt="" class="logoImg">
+                <span class="userInfo"><?php echo ($username["name"]); ?>：<?php echo ($username["tel"]); ?></span>
+                <button type="button" class="navbar-toggle collapsed btn-sider" data-toggle="collapse" data-target="#side-menu" aria-expanded="false">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+            </div>
 
-		</ul>
-		<p class="title">购买记录</p>
-		<div style="position: relative;height: 170px;">
-		<div id="scrollbox">
-			<ul class="maiList" id="scrollpic">
-				<?php if(is_array($orderinfo)): foreach($orderinfo as $key=>$v): ?><li>
-					<?php echo ($v["orderid"]); ?>：<?php echo ($v["addtime"]); ?>  成功购买<span><?php echo ($v["productname"]); ?></span>
-				</li><?php endforeach; endif; ?>
-			</ul>
-			<ul id="scrollpic-copy" class="maiList"></ul>
-			<ul id="scrollpic-copy1" class="maiList"></ul>
-		</div>
-		</div>
-		
-		<p class="title">最新资金变动</p>
-		<table>
-			<?php if(is_array($incomechange)): foreach($incomechange as $key=>$v): ?><tr>
-				<td class="kind"><?php echo ($v["reson"]); ?></td>
-				<td class="monry"><?php if($v["state"] == 2): ?>-<?php endif; ?>¥ <?php echo ($v["income"]); if($v["state"] == 0): ?>(待审核)<?php elseif($v["state"] == 3): ?>失败<?php endif; ?></td>
-				<td class="time"><?php echo ($v["addtime"]); ?></td>
-			</tr><?php endforeach; endif; ?>
+            <!-- 导航条内容 -->
+            <div class="collapse navbar-collapse" id="side-menu">
+                <ul class="nav navbar-nav" id="side-item">
+                    <li><a href="/index.php/Home/Index/index.html">网站首页</a></li>
+                    <li><a href="/index.php/Home/Index/introduce.html">公司简介</a></li>
+                    <li><a href="/index.php/Home/Index/advertising.html">公司公告</a></li>
+                    <li><a href="/index.php/Home/Index/K.html">同步k线图</a></li>
+                    <li><a href="/index.php/Home/Index/gruop.html">值班团队</a></li>
+                    <li><a href="/index.php/Home/Index/professor.html">分析专家</a></li>
+                    <li><a href="/index.php/Home/User/my.html">个人中心</a></li>
+                    <li><a href="/index.php/Home/Index/gongPai.html">MIF公排</a></li>
+                    <li><a href="/index.php/Home/Index/share.html">MIF分享</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</div>
 
-		</table>
+<!-- 公共头部 -->
+<div class="container-fluid noPadding">
+	<img src="/Public/Home/images/1.jpg" alt="" class="img-responsive" alt="Responsive image" style="margin-top: -20px;">
+	<div class="introduce" style="padding:0 10px;">
+		<?php echo ($intro["cont"]); ?>
 	</div>
-	<nav class="mui-bar mui-bar-tab">
-    <a class="mui-tab-item" data-href="/register/index.php/Home/Index/index.html">
-        <span class="mui-icon <?php if($function == 1): ?>mui-active<?php endif; ?>"><img src="/register/Public/Home/images/7.png" alt=""></span>
-        <span class="mui-tab-label">首页</span>
-    </a>
-    <a class="mui-tab-item <?php if($function == 2): ?>mui-active<?php endif; ?> " data-href="/register/index.php/Home/Index/financial.html">
-        <span class="mui-icon" style="width: 20px;"><img src="/register/Public/Home/images/81.png" alt=""></span>
-        <span class="mui-tab-label">我的产品</span>
-    </a>
-    <a class="mui-tab-item <?php if($function == 3): ?>mui-active<?php endif; ?>" data-href="/register/index.php/Home/Product/product.html">
-        <span class="mui-icon"><img src="/register/Public/Home/images/91.png" alt=""></span>
-        <span class="mui-tab-label">汇福源黄金理财</span>
-    </a>
-    <a class="mui-tab-item <?php if($function == 4): ?>mui-active<?php endif; ?>" data-href="/register/index.php/Home/User/user.html">
-        <span class="mui-icon"><img src="/register/Public/Home/images/10.png" alt=""></span>
-        <span class="mui-tab-label">个人中心</span>
-    </a>
-</nav>
-	<script src="/register/Public/Home/js/jquery-3.1.1.min.js"></script>
-	<script type="text/javascript">
-	$("nav a").click(function() {
-		   var href=$(this).attr('data-href');
-		   if(href){
-		   	   window.location.href=href;
-		   }
-	});
-	var speed = 50;
-	var direction="top";
-	var tab = document.getElementById("scrollbox");
-	var tab1 = document.getElementById("scrollpic");
-	var tab2 = document.getElementById("scrollpic-copy");
-	var tab3 = document.getElementById("scrollpic-copy1");
-	tab2.innerHTML = tab1.innerHTML;
-	tab3.innerHTML = tab1.innerHTML;
-	function marquee(){
-	    switch(direction){
-	        case "top":
-	            if(tab2.offsetHeight - tab.scrollTop <= 0){
-	                tab.scrollTop -= tab1.offsetHeight;
-	            }
-	            else{
-	                tab.scrollTop++;
-	            }
-	        break;
-	        case "bottom":
-	            if(tab.scrollTop <= 0){
-	                tab.scrollTop += tab2.offsetHeight;
-	            }
-	            else{
-	                tab.scrollTop--;
-	            }
-	        break;
-	    }
+	<video autoplay="autoplay" src="/Public/Home/images/video.mp4" controls="controls">
+		您的浏览器不支持 video 标签。
+	</video>
 
-	}
-	function changeDirection(dir){
-	   direction = dir;
-	}
-	var timer = setInterval(marquee,speed);
-	  
-	</script>
+</div>
+
+<script>
+
+</script>
 </body>
+
 </html>
