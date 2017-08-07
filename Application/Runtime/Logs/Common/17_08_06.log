@@ -1,0 +1,12 @@
+[ 2017-08-06T12:51:48+08:00 ] ::1 /register/index.php/User/http://localhost/register/index.php/Admin/Article/lists
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000000s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000000s ]
+ERR: 无法加载模块:User
+
+[ 2017-08-06T12:51:56+08:00 ] ::1 /register/index.php/User/qrcode
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000000s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000000s ]
+ERR: 无法加载模块:User
+
