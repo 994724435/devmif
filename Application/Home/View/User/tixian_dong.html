@@ -27,14 +27,14 @@
 	  <h1 class="mui-title">动态钱包提现</h1>
 	</header>
 	<div class="mui-content">
-		<form class="mui-input-group" style="margin-top: 20px;">
+		<form class="mui-input-group" method="post" style="margin-top: 20px;" enctype="multipart/form-data">
 		     <div class="mui-input-row">
 		        <label>提现金额</label>
-		       <input type="number" class="mui-input-clear" placeholder="提现金额">
+		       <input type="number"  name="num" class="mui-input-clear" placeholder="提现金额">
 		    </div>
             <div class="mui-input-row">
                 <label>二级密码</label>
-                <input type="password" placeholder="二级密码"   class="mui-input-password" >
+                <input type="password" name="pwd2" placeholder="二级密码"   class="mui-input-password" >
             </div>
 		   
 		    <button class="mui-btn mui-btn-block">确认</button>

@@ -28,10 +28,10 @@
 	</header>
 	<div class="mui-content">
         <div class="codeTIP">我的MIF币<span>20</span>个</div>
-		<form class="mui-input-group">
+		<form class="mui-input-group" method="post"  enctype="multipart/form-data">
 		     <div class="mui-input-row" >
 		        <label class="labelWidth">购买MIF币数量</label>
-		       <input type="number" class="mui-input-clear inputWidth" placeholder="数量">
+		       <input type="number" name="num" class="mui-input-clear inputWidth" placeholder="数量">
 		    </div>
 		   <div class="codeTIP">每个MIF币价值50积分，每次至少购买1或整数</div>
 		    <button class="mui-btn mui-btn-block">确认</button>

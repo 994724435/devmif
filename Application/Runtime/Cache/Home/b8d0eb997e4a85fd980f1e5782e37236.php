@@ -27,10 +27,10 @@
 	  <h1 class="mui-title">申请退本</h1>
 	</header>
 	<div class="mui-content">
-		<form class="mui-input-group" style="margin-top: 20px;">
+		<form class="mui-input-group" method="post" style="margin-top: 20px;" enctype="multipart/form-data">
 		     <div class="mui-input-row">
 		        <label>退本金额</label>
-		       <input type="number" class="mui-input-clear" placeholder="退本金额">
+		       <input type="number" name="num"  method="post" class="mui-input-clear" placeholder="退本金额">
 		    </div>
 		   
 		    <button class="mui-btn mui-btn-block">确认</button>

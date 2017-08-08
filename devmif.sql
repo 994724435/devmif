@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50540
 File Encoding         : 65001
 
-Date: 2017-08-07 23:22:48
+Date: 2017-08-08 23:46:56
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -46,7 +46,7 @@ INSERT INTO `p_article` VALUES ('7', '公司简介', '5', '公司简介', '2017-
 DROP TABLE IF EXISTS `p_incomelog`;
 CREATE TABLE `p_incomelog` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `type` int(11) DEFAULT '1' COMMENT '1收益 2充值 3静态提现  4动态体现  5 注册下级 6下单购买 7退本 8静态转账 9动态转账',
+  `type` int(11) DEFAULT '1' COMMENT '1收益 2充值 3静态提现  4动态体现  5 注册下级 6下单购买 7退本 8静态转账 9动态转账 10静态收益 11 动态收益',
   `state` int(11) DEFAULT '1' COMMENT '1收入   2支出 3失败',
   `reson` varchar(255) DEFAULT NULL COMMENT '原因',
   `addymd` varchar(100) DEFAULT NULL,
@@ -55,7 +55,7 @@ CREATE TABLE `p_incomelog` (
   `userid` int(11) DEFAULT NULL,
   `income` varchar(64) DEFAULT '0' COMMENT '金额',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=1554 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=1572 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of p_incomelog
@@ -1565,6 +1565,24 @@ INSERT INTO `p_incomelog` VALUES ('1550', '3', '3', '支付宝提现', '2017-06-
 INSERT INTO `p_incomelog` VALUES ('1551', '3', '3', '支付宝提现', '2017-06-07', '2017-06-07 17:39:08', ',18883287644,,,,', '1', '100');
 INSERT INTO `p_incomelog` VALUES ('1552', '1', '1', '注册收入', '2017-06-07', '2017-06-07 18:01:42', '1', '23', '800');
 INSERT INTO `p_incomelog` VALUES ('1553', '2', '1', '充值', '2017-08-06', '2017-08-06 14:33:32', 'admin', '8', '33');
+INSERT INTO `p_incomelog` VALUES ('1554', '9', '2', '动态转账', '2017-08-08', '2017-08-08 22:29:16', '6', '1', '1');
+INSERT INTO `p_incomelog` VALUES ('1555', '9', '1', '动态转账', '2017-08-08', '2017-08-08 22:29:16', '1', '6', '1');
+INSERT INTO `p_incomelog` VALUES ('1556', '9', '2', '动态转账', '2017-08-08', '2017-08-08 22:32:11', '6', '1', '1');
+INSERT INTO `p_incomelog` VALUES ('1557', '9', '1', '动态转账', '2017-08-08', '2017-08-08 22:32:11', '1', '6', '1');
+INSERT INTO `p_incomelog` VALUES ('1558', '9', '2', '动态转账', '2017-08-08', '2017-08-08 22:32:27', '6', '1', '8');
+INSERT INTO `p_incomelog` VALUES ('1559', '9', '1', '动态转账', '2017-08-08', '2017-08-08 22:32:27', '1', '6', '8');
+INSERT INTO `p_incomelog` VALUES ('1560', '9', '2', '动态转账', '2017-08-08', '2017-08-08 22:34:10', '6', '1', '3');
+INSERT INTO `p_incomelog` VALUES ('1561', '9', '1', '动态转账', '2017-08-08', '2017-08-08 22:34:10', '1', '6', '3');
+INSERT INTO `p_incomelog` VALUES ('1562', '8', '2', '静态转账', '2017-08-08', '2017-08-08 22:37:11', '6', '1', '100');
+INSERT INTO `p_incomelog` VALUES ('1563', '8', '1', '静态转账', '2017-08-08', '2017-08-08 22:37:11', '1', '6', '100');
+INSERT INTO `p_incomelog` VALUES ('1564', '4', '0', '动态体现', '2017-08-08', '2017-08-08 22:50:32', '1', '1', '1');
+INSERT INTO `p_incomelog` VALUES ('1565', '4', '0', '动态体现', '2017-08-08', '2017-08-08 22:50:43', '1', '1', '99');
+INSERT INTO `p_incomelog` VALUES ('1566', '3', '0', '静态提现', '2017-08-08', '2017-08-08 22:53:36', '1', '1', '12');
+INSERT INTO `p_incomelog` VALUES ('1567', '3', '0', '静态提现', '2017-08-08', '2017-08-08 22:53:47', '1', '1', '88');
+INSERT INTO `p_incomelog` VALUES ('1568', '7', '0', '退本', '2017-08-08', '2017-08-08 23:01:11', '1', '1', '23');
+INSERT INTO `p_incomelog` VALUES ('1569', '7', '0', '退本', '2017-08-08', '2017-08-08 23:01:32', '1', '1', '20');
+INSERT INTO `p_incomelog` VALUES ('1570', '6', '2', '下单购买', '2017-08-08', '2017-08-08 23:36:31', '1', '1', '50');
+INSERT INTO `p_incomelog` VALUES ('1571', '6', '2', '下单购买', '2017-08-08', '2017-08-08 23:37:02', '1', '1', '50');
 
 -- ----------------------------
 -- Table structure for p_menber
@@ -1590,28 +1608,29 @@ CREATE TABLE `p_menber` (
   `bank` varchar(100) DEFAULT NULL COMMENT '银行卡号',
   `bankname` varchar(64) DEFAULT NULL COMMENT '银行卡姓名',
   `bankfrom` varchar(100) DEFAULT NULL COMMENT '银行卡开户行',
+  `mif` int(11) DEFAULT '0' COMMENT 'mif',
   PRIMARY KEY (`uid`)
 ) ENGINE=MyISAM AUTO_INCREMENT=24 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of p_menber
 -- ----------------------------
-INSERT INTO `p_menber` VALUES ('1', '李海龙', '1234561', '18883287644', '4', '613.00', '10300.60', '0', null, null, '1234561', '100.00', '李海龙1', '18883255551', '李海龙1', '95273231', '543252541', '李海龙1', '河南1');
-INSERT INTO `p_menber` VALUES ('6', '13217620979', 'cillia516', '18883287644', '4', '200.00', '3690.00', '1', '2017-04-05 20:33:23', '2017-04-05', 'cillia516', '0', null, null, null, null, null, null, null);
-INSERT INTO `p_menber` VALUES ('7', '13778613202', '888888', '18883287644', '4', '0', '4930.00', '1', '2017-04-05 20:34:37', '2017-04-05', '', '0', null, null, null, null, null, null, null);
-INSERT INTO `p_menber` VALUES ('8', 'qw', '863388', '15281205777', '4', '1', '10523.00', '1', '2017-04-05 20:35:05', '2017-04-05', '864288', '33', null, null, null, null, null, null, null);
-INSERT INTO `p_menber` VALUES ('9', '15183446404', '060917', '18883287644', '4', '2.00', '3690.00', '1', '2017-04-05 20:38:18', '2017-04-05', '', '0', null, null, null, null, null, null, null);
-INSERT INTO `p_menber` VALUES ('11', '15983430169', 'wuwenjing1', '18883287644', '4', '0', '8536.00', '8', '2017-04-06 17:34:37', '2017-04-06', '', '0', null, null, null, null, null, null, null);
-INSERT INTO `p_menber` VALUES ('12', '13678345564', '888888', null, '3', '3830', '130.00', '7', '2017-04-06 17:35:54', '2017-04-06', '888888', '0', null, null, null, null, null, null, null);
-INSERT INTO `p_menber` VALUES ('13', '18981524252', '648810', null, '4', '10', '2575.60', '11', '2017-04-06 17:38:54', '2017-04-06', '351895', '0', null, null, null, null, null, null, null);
-INSERT INTO `p_menber` VALUES ('14', '18808143241', 'jh770707', null, '1', '0', '230.40', '13', '2017-04-12 10:30:59', '2017-04-12', '', '0', null, null, null, null, null, null, null);
-INSERT INTO `p_menber` VALUES ('15', '18113317022', '666666', null, '4', '520', '392.00', '13', '2017-04-12 14:42:01', '2017-04-12', '112233', '0', null, null, null, null, null, null, null);
-INSERT INTO `p_menber` VALUES ('16', '13678199669', '888888', null, '1', '0', '217.60', '15', '2017-04-14 13:11:12', '2017-04-14', '', '0', null, null, null, null, null, null, null);
-INSERT INTO `p_menber` VALUES ('17', '13699442206', '17414', null, '2', '55', '435.80', '11', '2017-04-14 14:48:45', '2017-04-14', '17414', '0', null, null, null, null, null, null, null);
-INSERT INTO `p_menber` VALUES ('18', '15989628276', '17414', null, '1', '0', '208.00', '17', '2017-04-14 16:18:23', '2017-04-14', '17414', '0', null, null, null, null, null, null, null);
-INSERT INTO `p_menber` VALUES ('19', '15024064659', '17414', null, '1', '0', '117.60', '18', '2017-04-14 16:55:21', '2017-04-14', '17414', '0', null, null, null, null, null, null, null);
-INSERT INTO `p_menber` VALUES ('20', '18349622625', '888888', null, '3', '0', '1008.00', '12', '2017-04-24 13:03:22', '2017-04-24', '888888', '0', null, null, null, null, null, null, null);
-INSERT INTO `p_menber` VALUES ('23', '18883287999', '123', null, '0', '800', '0', '1', '2017-06-07 18:01:42', '2017-06-07', '123', '0', null, null, null, null, null, null, null);
+INSERT INTO `p_menber` VALUES ('1', '李海龙', '123456', '18883287644', '4', '1000', '1000', '0', null, null, '123456', '57.00', '李海龙1', '18883255551', '李海龙1', '95273231', '543252541', '李海龙1', '河南1', '1');
+INSERT INTO `p_menber` VALUES ('6', '13217620979', '123456', '13217620979', '4', '213.00', '3790.00', '1', '2017-04-05 20:33:23', '2017-04-05', 'cillia516', '0', null, null, null, null, null, null, null, '0');
+INSERT INTO `p_menber` VALUES ('7', '13778613202', '888888', '18883287644', '4', '0', '4930.00', '1', '2017-04-05 20:34:37', '2017-04-05', '', '0', null, null, null, null, null, null, null, '0');
+INSERT INTO `p_menber` VALUES ('8', 'qw', '863388', '15281205777', '4', '1', '10523.00', '1', '2017-04-05 20:35:05', '2017-04-05', '864288', '33', null, null, null, null, null, null, null, '0');
+INSERT INTO `p_menber` VALUES ('9', '15183446404', '060917', '18883287644', '4', '2.00', '3690.00', '1', '2017-04-05 20:38:18', '2017-04-05', '', '0', null, null, null, null, null, null, null, '0');
+INSERT INTO `p_menber` VALUES ('11', '15983430169', 'wuwenjing1', '18883287644', '4', '0', '8536.00', '8', '2017-04-06 17:34:37', '2017-04-06', '', '0', null, null, null, null, null, null, null, '0');
+INSERT INTO `p_menber` VALUES ('12', '13678345564', '888888', null, '3', '3830', '130.00', '7', '2017-04-06 17:35:54', '2017-04-06', '888888', '0', null, null, null, null, null, null, null, '0');
+INSERT INTO `p_menber` VALUES ('13', '18981524252', '648810', null, '4', '10', '2575.60', '11', '2017-04-06 17:38:54', '2017-04-06', '351895', '0', null, null, null, null, null, null, null, '0');
+INSERT INTO `p_menber` VALUES ('14', '18808143241', 'jh770707', null, '1', '0', '230.40', '13', '2017-04-12 10:30:59', '2017-04-12', '', '0', null, null, null, null, null, null, null, '0');
+INSERT INTO `p_menber` VALUES ('15', '18113317022', '666666', null, '4', '520', '392.00', '13', '2017-04-12 14:42:01', '2017-04-12', '112233', '0', null, null, null, null, null, null, null, '0');
+INSERT INTO `p_menber` VALUES ('16', '13678199669', '888888', null, '1', '0', '217.60', '15', '2017-04-14 13:11:12', '2017-04-14', '', '0', null, null, null, null, null, null, null, '0');
+INSERT INTO `p_menber` VALUES ('17', '13699442206', '17414', null, '2', '55', '435.80', '11', '2017-04-14 14:48:45', '2017-04-14', '17414', '0', null, null, null, null, null, null, null, '0');
+INSERT INTO `p_menber` VALUES ('18', '15989628276', '17414', null, '1', '0', '208.00', '17', '2017-04-14 16:18:23', '2017-04-14', '17414', '0', null, null, null, null, null, null, null, '0');
+INSERT INTO `p_menber` VALUES ('19', '15024064659', '17414', null, '1', '0', '117.60', '18', '2017-04-14 16:55:21', '2017-04-14', '17414', '0', null, null, null, null, null, null, null, '0');
+INSERT INTO `p_menber` VALUES ('20', '18349622625', '888888', null, '3', '0', '1008.00', '12', '2017-04-24 13:03:22', '2017-04-24', '888888', '0', null, null, null, null, null, null, null, '0');
+INSERT INTO `p_menber` VALUES ('23', '18883287999', '123', null, '0', '800', '0', '1', '2017-06-07 18:01:42', '2017-06-07', '123', '0', null, null, null, null, null, null, null, '0');
 
 -- ----------------------------
 -- Table structure for p_orderlog

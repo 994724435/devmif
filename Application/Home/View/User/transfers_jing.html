@@ -27,24 +27,24 @@
 	  <h1 class="mui-title">静态钱包互转</h1>
 	</header>
 	<div class="mui-content">
-		<form class="mui-input-group" style="margin-top: 20px;">
-		    <div class="mui-input-row">
-		        <label>会员账号</label>
-		       <input type="text" class="mui-input-clear" placeholder="会员账号">
-		    </div>
-		    <div class="mui-input-row">
-		        <label>会员姓名</label>
-		       <input type="text" class="mui-input-clear" placeholder="会员姓名">
-		    </div>
-		     <div class="mui-input-row">
-		        <label>转账金额</label>
-		       <input type="number" class="mui-input-clear" placeholder="转账金额">
-		    </div>
-		     <div class="mui-input-row">
-		        <label>二级密码</label>
-		        <input type="password" placeholder="二级密码" data-value=""  class="mui-input-password" >
-		    </div>
-		    <button class="mui-btn mui-btn-block">确认</button>
+		<form class="mui-input-group" method="post" style="margin-top: 20px;" enctype="multipart/form-data">
+			<div class="mui-input-row">
+				<label>会员账号</label>
+				<input type="text" name="tel"  class="mui-input-clear" placeholder="会员账号">
+			</div>
+			<div class="mui-input-row">
+				<label>会员姓名</label>
+				<input type="text" name="name" class="mui-input-clear" placeholder="会员姓名">
+			</div>
+			<div class="mui-input-row">
+				<label>转账金额</label>
+				<input type="number" name="num" class="mui-input-clear" placeholder="转账金额">
+			</div>
+			<div class="mui-input-row">
+				<label>二级密码</label>
+				<input type="password" name="pwd2" placeholder="二级密码" data-value=""  class="mui-input-password" >
+			</div>
+			<button class="mui-btn mui-btn-block">确认</button>
 		</form>
 	</div>
 </body>

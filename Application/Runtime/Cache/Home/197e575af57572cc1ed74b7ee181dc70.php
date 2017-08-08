@@ -59,7 +59,7 @@
               <li>
                 <ul>
                   <li>动态钱包</li>
-                  <li>168.5</li>
+                  <li><?php echo ($username["dongbag"]); ?></li>
                   <li><button type="button" class="btn btn-primary btn-xs" onclick="location.href='transfers_dong.html'">转账</button>
                   <button type="button" class="btn btn-default btn-xs" onclick="location.href='tixian_dong.html'">提现</button></li>
                 </ul>
@@ -67,7 +67,7 @@
               <li>
                 <ul>
                   <li>静态钱包</li>
-                  <li>21.4</li>
+                  <li><?php echo ($username["jingbag"]); ?></li>
                   <li><button type="button" class="btn btn-primary btn-xs" onclick="location.href='transfers_jing.html'">转账</button>
                   <button type="button" class="btn btn-default btn-xs" onclick="location.href='tixian_jing.html'">提现</button></li>
                 </ul>
@@ -78,7 +78,7 @@
                 <ul class="mui-table-view">
                   <li class="mui-table-view-cell">
                        充值钱包
-                       <span class="fr">余额：100</span>
+                       <span class="fr">余额：<?php echo ($username["chargebag"]); ?></span>
                   </li>
                   <li class="mui-table-view-cell">
                      <a class="mui-navigate-right" href="recharge.html">

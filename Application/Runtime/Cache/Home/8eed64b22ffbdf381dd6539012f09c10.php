@@ -40,15 +40,15 @@
 			</li>
 			<li class="mui-table-view-cell">
 				投资金额
-				<span class="fr">100</span>
+				<span class="fr"><?php echo ($username["chargebag"]); ?></span>
 			</li>
 			<li class="mui-table-view-cell">
 				动态积分
-				<span class="fr">100</span>
+				<span class="fr"><?php echo ($username["dongbag"]); ?></span>
 			</li>
 			<li class="mui-table-view-cell">
 				静态积分
-				<span class="fr">100</span>
+				<span class="fr"><?php echo ($username["jingbag"]); ?></span>
 			</li>
 			<li class="mui-table-view-cell">
 				支付宝账号
