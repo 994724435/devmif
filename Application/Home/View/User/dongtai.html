@@ -28,21 +28,13 @@
 	</header>
 	<div class="mui-content">
 		<div class="mui-content">
-        <ul class="flex">
-            <li>张三</li>
-            <li>1200</li>
-            <li class="time">2015-3-3 12:00:00</li>
-        </ul>
-        <ul class="flex">
-            <li>张三</li>
-            <li>1200</li>
-            <li class="time">2015-3-3 12:00:00</li>
-        </ul>
-        <ul class="flex">
-            <li>张三</li>
-            <li>1200</li>
-            <li class="time">2015-3-3 12:00:00</li>
-        </ul>
+            <foreach name="res" item='v'>
+                <ul class="flex">
+                    <li>{$v.reson}</li>
+                    <li>{$v.income}</li>
+                    <li class="time"><?php echo date('Y-m-d H:i:s',$v['addtime']);?></li>
+                </ul>
+            </foreach>
     </div>
 	</div>
 </body>

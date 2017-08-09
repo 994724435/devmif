@@ -90,6 +90,9 @@ class UserController extends CommonController{
     * 静态
      */
     public function jingtai(){
+        $incomelog =M('incomelog');
+        $res = $incomelog->where(array('state'=>1,'type'=>10))->order(" id DESC ")->limit(15)->select();
+        $this->assign('res',$res);
         $this->display();
     }
 
@@ -97,6 +100,9 @@ class UserController extends CommonController{
     * 动态
      */
     public function dongtai(){
+        $incomelog =M('incomelog');
+        $res = $incomelog->where(array('state'=>1,'type'=>11))->order(" id DESC ")->limit(15)->select();
+        $this->assign('res',$res);
         $this->display();
     }
 
@@ -132,6 +138,20 @@ class UserController extends CommonController{
                 $data['income'] =$needmoney;
                 $income->add($data);
                 $resreson ="购买成功";
+
+                $order['userid'] =session('uid');
+                $order['productid'] =1 ;
+                $order['productname'] ="MIF";
+                $order['productmoney'] = 50;
+                $order['states'] = 1;
+                $order['orderid'] = 2;
+                $order['addtime'] = time();
+                $order['addymd'] = date("Y-m-d",time());
+                $order['num'] = $_POST['num'];
+                $order['prices'] =$needmoney;
+                $order['totals'] =$needmoney;
+                M("orderlog")->add($order);
+
                 echo "<script>alert('购买成功');";
                 echo "window.location.href='".__ROOT__."/index.php/Home/User/my';";
                 echo "</script>";
