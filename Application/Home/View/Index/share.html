@@ -21,20 +21,20 @@
     </head>
 <body class="bodyColor">
 	 <!-- 公共头部 -->
+
      <include file="Common/header" />
     <!-- 公共头部 -->
     <div class="container-fluid noPadding">
         <div class="panel panel-default">
           <div class="panel-heading">推广链接</div>
           <div class="panel-body">
-             http://echarts.baidu.com/echarts2/doc/example/k.html
+             {$url}
           </div>
          </div>
          <div class="panel panel-default">
           <div class="panel-heading">推广二维码</div>
           <div class="panel-body">
-                <img src="https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=1530102068,1742058941&fm=26&gp=0.jpg" alt="" class="codeiMG">
-             
+                <img src="{:U('index.php/Index/qrcode')}" alt="" class="codeiMG">
           </div>
          </div>
     </div>

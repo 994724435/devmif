@@ -9,7 +9,7 @@ class UserController extends Controller {
         //生成二维码图片
         $object = new \QRcode();
         $url="http://".$_SERVER['HTTP_HOST'].'/index.php/Admin/Article/editearticle/id/'.$id;//网址或者是文本内容
-        echo $url;die;
+
         $level=3;
         $size=5;
         $errorCorrectionLevel =intval($level) ;//容错级别
@@ -61,7 +61,8 @@ class UserController extends Controller {
             if (!$res_own) {
                 continue;
             }
-            $config = 0.02;
+            $configobj =M('config')->where(array('id'=>3))->select();
+            $config =$configobj[0]['value'];
             $base = bcmul(50, $config);
             $income = bcmul($base, $val['num'], 2);
             $data['state'] = 1;
