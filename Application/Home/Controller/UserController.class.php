@@ -152,6 +152,24 @@ class UserController extends CommonController{
                 $order['totals'] =$needmoney;
                 M("orderlog")->add($order);
 
+                // 上家收益
+                if($userinfo[0]['fuid']){
+                    $fidUserinfo = $menber->where(array('uid'=>$userinfo[0]['fuid']))->select();
+                    $config =M('config')->where(array('id'=>1))->select();
+                    $dongbag = bcadd($fidUserinfo[0]['dongbag'],$config[0]['value']*$_POST['num'],2);
+                    $menber->where(array('uid'=>$userinfo[0]['fuid']))->save(array('dongbag'=>$dongbag));
+                    $income =M('incomelog');
+                    $data['type'] =11;
+                    $data['state'] =1;
+                    $data['reson'] ='下级购买MIF';
+                    $data['addymd'] =date('Y-m-d',time());
+                    $data['addtime'] =time();
+                    $data['orderid'] =session('uid');
+                    $data['userid'] = $userinfo[0]['fuid'] ;
+                    $data['income'] = $config[0]['value']*$_POST['num'] ;
+                    $income->add($data);
+                }
+
                 echo "<script>alert('购买成功');";
                 echo "window.location.href='".__ROOT__."/index.php/Home/User/my';";
                 echo "</script>";

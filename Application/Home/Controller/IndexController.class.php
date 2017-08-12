@@ -89,13 +89,21 @@ class IndexController extends CommonController {
         $this->display();
     }
 
+    public function K(){
+        $rite =M("rite")->order("id desc")->limit(7)->select();
+        $this->assign('seven',$rite);
+        $this->display();
+    }
+
     public function qrcode(){
         Vendor('phpqrcode.phpqrcode');
+        $id=I('get.id');
         //生成二维码图片
         $object = new \QRcode();
-        $url='http://www.shouce.ren/';//网址或者是文本内容
+        $url="http://".$_SERVER['HTTP_HOST'].'/index.php/Admin/Article/editearticle/id/'.$id;//网址或者是文本内容
+
         $level=3;
-        $size=4;
+        $size=5;
         $errorCorrectionLevel =intval($level) ;//容错级别
         $matrixPointSize = intval($size);//生成图片大小
         $object->png($url, false, $errorCorrectionLevel, $matrixPointSize, 2);

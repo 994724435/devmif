@@ -6,9 +6,9 @@ class UserController extends Controller {
     public function qrcode(){
         Vendor('phpqrcode.phpqrcode');
         $id=I('get.id');
-        //生成二维码图片
+        //生成二维码图片 http://localhost/index.php/Home/Login/reg
         $object = new \QRcode();
-        $url="http://".$_SERVER['HTTP_HOST'].'/index.php/Admin/Article/editearticle/id/'.$id;//网址或者是文本内容
+        $url="http://".$_SERVER['HTTP_HOST'].'/index.php/Home/Login/reg/fid/'.$id;
 
         $level=3;
         $size=5;
@@ -153,6 +153,21 @@ class UserController extends Controller {
             }
         }
 //        print_r($result_user);die;
+    }
+
+
+    function crontabRite(){
+        $today = date('m-d',time());
+        $isdate = M("Rite")->where(array('date'=>$today))->select();
+        if($isdate[0]){
+//            $config= M("Config")->where(array('name'=>'daily_income'))->select();
+//            M("Rite")->where(array('date'=>$today))->save(array('cont'=>$config[0]['val'],'date'=>$today));
+            echo 2;exit();
+        }else{
+            $config= M("Config")->where(array('id'=>1))->select();
+            M("Rite")->add(array('cont'=>$config[0]['value'],'date'=>$today));
+            echo 1;exit();
+        }
     }
 }
 

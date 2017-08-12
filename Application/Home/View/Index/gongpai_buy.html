@@ -26,6 +26,7 @@
 	  <a class="mui-icon mui-icon-left-nav mui-pull-left mui-action-back"></a>
 	  <h1 class="mui-title">购买公排</h1>
 	</header>
+
 	<div class="mui-content">
        <div class="codeTIP">购买后系统将自动对您的点位进行排位</div>
 	     <ul class="mui-table-view">
@@ -33,7 +34,12 @@
                 当前购买公排门票价格：100元
               </li>
         </ul>
+        <form   method="post"  enctype="multipart/form-data">
+         <input type="hidden" name="num" value="100">
 		<button class="mui-btn mui-btn-block">确认</button>
+        </form>
 	</div>
+
+
 </body>
 </html>
