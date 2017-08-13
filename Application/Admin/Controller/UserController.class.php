@@ -5,10 +5,10 @@ class UserController extends Controller {
 
     public function qrcode(){
         Vendor('phpqrcode.phpqrcode');
-        $id=I('get.id');
+        $id=$_GET['id'];
         //生成二维码图片 http://localhost/index.php/Home/Login/reg
         $object = new \QRcode();
-        $url="http://".$_SERVER['HTTP_HOST'].'/index.php/Home/Login/reg/fid/'.$id;
+        $url="http://402231.ouyouhui.com".'/index.php/Home/Login/reg/fid/'.$id;
 
         $level=3;
         $size=5;

@@ -84,7 +84,7 @@ class IndexController extends CommonController {
 	}
 
 	public function share(){
-	    $url = $_SERVER['SERVER_NAME']."/index.php/Home/Login/reg/fid/".session('uid').".html";
+	    $url = "http://402231.ouyouhui.com"."/index.php/Home/Login/reg/fid/".session('uid').".html";
 	    $this->assign('url',$url);
         $this->display();
     }
