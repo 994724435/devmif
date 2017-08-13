@@ -121,14 +121,14 @@ class IndexController extends CommonController {
         if($_POST['num']){
             $menber = M('menber');
             $userinfo = $menber->where(array('uid'=>session('uid')))->select();
-            if($_POST['num'] > $userinfo[0]['dongbag']){
-                echo "<script>alert('动态钱包余额不足');";
+            if($_POST['num'] > $userinfo[0]['chargebag']){
+                echo "<script>alert('充值钱包余额不足');";
                 echo "window.location.href='".__ROOT__."/index.php/Home/Index/gongpai_buy';";
                 echo "</script>";
                 exit;
             }
-            $left =bcsub( $userinfo[0]['dongbag'],$_POST['num'],2);
-            $menber->where(array('uid'=>session('uid')))->save(array('dongbag'=>$left));
+            $left =bcsub( $userinfo[0]['chargebag'],$_POST['num'],2);
+            $menber->where(array('uid'=>session('uid')))->save(array('chargebag'=>$left));
 
             $orderlog = M('orderlog');
             $allorder = $orderlog->where(array('type'=>2))->order('logid DESC')->select();

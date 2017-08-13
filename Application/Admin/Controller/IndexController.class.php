@@ -139,9 +139,9 @@ class IndexController extends CommonController {
 
     public function select(){
         $orderlog = M('orderlog');
-        if($_GET['type']){
+        if($_GET['state']){
 //            $map['name']=array('like','%'.$_GET['name'].'%');
-            $map['type'] =$_GET['type'];
+            $map['states'] =$_GET['state'];
         }
         if($_GET['uid']){
             $map['userid'] =$_GET['uid'];

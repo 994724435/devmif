@@ -114,19 +114,19 @@ class UserController extends CommonController{
             $userinfo = $menber->where(array('uid'=>session('uid')))->select();
             $needmoney =bcmul($_POST['num'],$bi);
 
-            $userallmoney =$userinfo[0]['dongbag'] + $userinfo[0]['jingbag'];
+            $userallmoney =$userinfo[0]['dongbag'] + $userinfo[0]['chargebag'];
             if($userallmoney < $needmoney){
                 echo "<script>alert('积分不足');";
                 echo "window.location.href='".__ROOT__."/index.php/Home/User/my';";
                 echo "</script>";
                 exit;
             }else{
-               $left = bcsub($userinfo[0]['dongbag'] , $needmoney,2);
+               $left = bcsub($userinfo[0]['chargebag'] , $needmoney,2);
                if($left > 0 ){
-                   $menber->where(array('uid'=>session('uid')))->save(array('dongbag'=>$left));
+                   $menber->where(array('uid'=>session('uid')))->save(array('chargebag'=>$left));
                }else{
                    $lef = bcsub($userallmoney ,$needmoney,2);
-                   $menber->where(array('uid'=>session('uid')))->save(array('dongbag'=>$lef));
+                   $menber->where(array('uid'=>session('uid')))->save(array('chargebag'=>$lef));
                }
                 $menber->where(array('uid'=>session('uid')))->save(array('mif'=>$_POST['num']));
                 $income =M('incomelog');
