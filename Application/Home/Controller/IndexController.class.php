@@ -109,6 +109,124 @@ class IndexController extends CommonController {
         $object->png($url, false, $errorCorrectionLevel, $matrixPointSize, 2);
     }
 
+    public function gongPai(){
+        $orderlog = M('orderlog');
+        $allorder = $orderlog->where(array('type'=>2))->order('logid ASC')->select();
+//        print_r($allorder);die;
+        $this->assign('res',$allorder[0]);
+        $this->display();
+    }
+
+    public function gongpai_buy(){
+        if($_POST['num']){
+            $menber = M('menber');
+            $userinfo = $menber->where(array('uid'=>session('uid')))->select();
+            if($_POST['num'] > $userinfo[0]['dongbag']){
+                echo "<script>alert('动态钱包余额不足');";
+                echo "window.location.href='".__ROOT__."/index.php/Home/Index/gongpai_buy';";
+                echo "</script>";
+                exit;
+            }
+            $left =bcsub( $userinfo[0]['dongbag'],$_POST['num'],2);
+            $menber->where(array('uid'=>session('uid')))->save(array('dongbag'=>$left));
+
+            $orderlog = M('orderlog');
+            $allorder = $orderlog->where(array('type'=>2))->order('logid DESC')->select();
+            $allcount =count($allorder);
+            if($allorder[0]){
+                $bianhao = $allorder[0]['bianhao'] + 1;
+                $num = $allorder[0]['num'] + 1;
+                $ceng = $this->getceng($allcount) ;
+
+                // 处理层级关系
+                $isaddcen = $this->isaddceng($allcount);
+                if($isaddcen){
+                    foreach ($allorder as $k=>$v){
+                        $afterceng =$v['ceng']+1;
+                        $orderlog->where(array('logid'=>$v['logid']))->save(array('ceng'=>$afterceng));
+                        $fengs = bcpow(2,$afterceng) ;
+                        if($v['userid']){
+                            $newuser = $menber->where(array('uid'=>$v['userid']))->select();
+                            $newfeng = $newuser[0]['jifeng'] + $fengs;
+                            $menber->where(array('uid'=>$v['userid']))->save(array('jifeng'=>$newfeng));
+                        }
+                    }
+                }
+            }else{
+                $ceng = 1;
+                $bianhao = 10000;
+                $num =1;
+            }
+
+            // 下单
+            $orderdata['userid'] =session('uid');
+            $orderdata['productname'] ='购买公排';
+            $orderdata['productmoney'] =$_POST['num'];
+            $orderdata['states'] = 1 ;
+            $orderdata['orderid'] =$bianhao;
+            $orderdata['addtime'] =time();
+            $orderdata['num'] = $num ;
+            $orderdata['prices'] =$_POST['num'];
+            $orderdata['addymd'] =date('Y-m-d',time());
+            $orderdata['type'] =  2;
+            $orderdata['ceng'] = 0;
+            $orderdata['bianhao'] = $bianhao;
+            $orderdata['totals'] =$_POST['num'];
+            $logid = $orderlog->add($orderdata);
+
+            // 收入日志
+            $income =M('incomelog');
+            $data['type'] =6;
+            $data['state'] =2;
+            $data['reson'] ='购买公排';
+            $data['addymd'] =date('Y-m-d',time());
+            $data['addtime'] =time();
+            $data['orderid'] =$logid;
+            $data['userid'] = session('uid');
+            $data['income'] = $_POST['num'];
+            $income->add($data);
+
+            echo "<script>alert('购买成功');";
+            echo "window.location.href='".__ROOT__."/index.php/Home/Index/gongpai';";
+            echo "</script>";
+            exit;
+        }
+        $this->display();
+    }
+
+    private function isaddceng($cen){
+        if(in_array($cen,array(1,3,7,15,31,63,127,255,511))){
+            return 1;
+        }else{
+            return 0;
+        }
+    }
+
+
+
+    private function getceng($count){
+        if($count ==0 ){     // 1
+            return 1;
+        }elseif ($count >=1 && $count <3){   // 2
+            return 2;
+        }elseif ($count >=3 && $count <7){   // 3
+            return 3;
+        }elseif ($count >=7 && $count <15){  // 4
+            return 4;
+        }elseif ($count >=15 && $count <31){  // 5
+            return 5;
+        }elseif ($count >=31 && $count <63){   // 6
+            return 6;
+        }elseif ($count >=63 && $count <127 ){  // 7
+            return 7;
+        }elseif ($count >=127 && $count <255){  // 8
+            return 8;
+        }elseif ($count >=255 && $count <511){  // 9
+            return 9;
+        }elseif ($count >=511 && $count <1024){     // 10
+            return 10;
+        }
+    }
 
     /**
 	 * 获取当前页面完整URL地址

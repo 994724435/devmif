@@ -33,11 +33,11 @@
 		          <th>用户id</th>
 					<th>注册上家id</th>
 					<th>姓名</th>
-		          <th>用户等级</th>
-		          <th>充值钱包</th>
-				  <th>收益钱包</th>
-
+		          <th>动态钱包</th>
+				  <th>静态钱包</th>
+				  <th>充值钱包</th>
 		          <th>注册时间</th>
+					<th>操作</th>
 		        </tr>
 		      </thead>
 		      <tbody>	      
@@ -56,11 +56,11 @@
 		          <th scope="row">{$v.uid}</th>
 				  <th>{$v.fuid}</th>
 				  <th>{$v.name}</th>
-		          <th><if condition="$v.type eq 1"> 普卡会员<elseif condition="$v.type eq 2"/>银卡会员<elseif condition="$v.type eq 3"/>金卡会员<elseif condition="$v.type eq 4"/>钻卡会员</if></th>
-		          <th>{$v.chargebag}</th>
-				  <th>{$v.incomebag}</th>
-
+		           <th>{$v.dongbag}</th>
+				  <th>{$v.jingbag}</th>
+				  <th>{$v.chargebag}</th>
 				  <td>{$v.addymd}</td>
+				  <th><a href="__ROOT__/index.php/Admin/Menber/editeUser/id/{$v.uid}">修 改 </a></th>
 		        </tr>
 		      	<?php $i++ ;?>
 		       </foreach>		      

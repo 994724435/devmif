@@ -1,22 +1,22 @@
 /*
 Navicat MySQL Data Transfer
 
-Source Server         : localhost
-Source Server Version : 50540
+Source Server         : 本机
+Source Server Version : 50553
 Source Host           : localhost:3306
 Source Database       : devmif
 
 Target Server Type    : MYSQL
-Target Server Version : 50540
+Target Server Version : 50553
 File Encoding         : 65001
 
-Date: 2017-08-12 15:25:07
+Date: 2017-08-13 17:05:13
 */
 
 SET FOREIGN_KEY_CHECKS=0;
 
 -- ----------------------------
--- Table structure for p_article
+-- Table structure for `p_article`
 -- ----------------------------
 DROP TABLE IF EXISTS `p_article`;
 CREATE TABLE `p_article` (
@@ -41,7 +41,7 @@ INSERT INTO `p_article` VALUES ('6', '分析专家李云龙标题', '4', '分析
 INSERT INTO `p_article` VALUES ('7', '公司简介', '5', '公司简介', '2017-08-06 12:43:34', '2017-08-06', 'admin', '1');
 
 -- ----------------------------
--- Table structure for p_config
+-- Table structure for `p_config`
 -- ----------------------------
 DROP TABLE IF EXISTS `p_config`;
 CREATE TABLE `p_config` (
@@ -50,18 +50,29 @@ CREATE TABLE `p_config` (
   `value` varchar(128) DEFAULT NULL,
   `complan` varchar(255) DEFAULT NULL COMMENT '注释说明',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of p_config
 -- ----------------------------
-INSERT INTO `p_config` VALUES ('1', '回馈奖 ', '2', '动态购买收益');
-INSERT INTO `p_config` VALUES ('2', '推荐奖', '2', '推荐奖');
-INSERT INTO `p_config` VALUES ('3', 'MIF静态收益', '3', '静态收益');
-INSERT INTO `p_config` VALUES ('4', '注册下级', '2', '注册下级');
+INSERT INTO `p_config` VALUES ('1', 'MIF价格', '100', 'MIF价格');
+INSERT INTO `p_config` VALUES ('2', 'MIF静态收益', '0.01', 'MIF静态收益');
+INSERT INTO `p_config` VALUES ('3', '推荐奖 1代', '0.05', '推荐奖 ');
+INSERT INTO `p_config` VALUES ('4', '推荐奖 2代', '0.04', null);
+INSERT INTO `p_config` VALUES ('5', '推荐奖 3代', '0.03', null);
+INSERT INTO `p_config` VALUES ('6', '推荐奖 4代', '0.02', null);
+INSERT INTO `p_config` VALUES ('7', '推荐奖 5代', '0.01', null);
+INSERT INTO `p_config` VALUES ('8', '推荐奖 6代', '0.01', null);
+INSERT INTO `p_config` VALUES ('9', '回馈奖1代', '0.01', null);
+INSERT INTO `p_config` VALUES ('10', '回馈奖2代', '0.02', null);
+INSERT INTO `p_config` VALUES ('11', '回馈奖3代', '0.03', null);
+INSERT INTO `p_config` VALUES ('12', '回馈奖4代', '0.04', null);
+INSERT INTO `p_config` VALUES ('13', '回馈奖5代', '0.05', null);
+INSERT INTO `p_config` VALUES ('14', '回馈奖6代', '0.06', null);
+INSERT INTO `p_config` VALUES ('15', '回馈奖1代', null, null);
 
 -- ----------------------------
--- Table structure for p_incomelog
+-- Table structure for `p_incomelog`
 -- ----------------------------
 DROP TABLE IF EXISTS `p_incomelog`;
 CREATE TABLE `p_incomelog` (
@@ -75,37 +86,17 @@ CREATE TABLE `p_incomelog` (
   `userid` int(11) DEFAULT NULL,
   `income` varchar(64) DEFAULT '0' COMMENT '金额',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=1617 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=1635 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of p_incomelog
 -- ----------------------------
-INSERT INTO `p_incomelog` VALUES ('1594', '10', '1', '静态收益', '2017-08-09', '1502289616', '46', '1', '1');
-INSERT INTO `p_incomelog` VALUES ('1595', '10', '1', '静态收益', '2017-08-09', '1502289616', '47', '1', '2');
-INSERT INTO `p_incomelog` VALUES ('1596', '11', '1', '动态收益', '2017-08-09', '1502289616', '48', '1', '1');
-INSERT INTO `p_incomelog` VALUES ('1597', '10', '1', '静态收益', '2017-08-11', '1502464647', '46', '1', '100');
-INSERT INTO `p_incomelog` VALUES ('1598', '10', '1', '静态收益', '2017-08-11', '1502464647', '47', '1', '200');
-INSERT INTO `p_incomelog` VALUES ('1599', '10', '1', '静态收益', '2017-08-11', '1502464647', '48', '1', '100');
-INSERT INTO `p_incomelog` VALUES ('1600', '5', '1', '注册下级', '2017-08-12', '2017', '30', '29', '2');
-INSERT INTO `p_incomelog` VALUES ('1601', '6', '2', '下单购买', '2017-08-12', '2017', '30', '30', '50');
-INSERT INTO `p_incomelog` VALUES ('1602', '11', '1', '下级购买MIF', '2017-08-12', '1502501848', '30', null, '2');
-INSERT INTO `p_incomelog` VALUES ('1603', '6', '2', '下单购买', '2017-08-12', '2017', '30', '30', '50');
-INSERT INTO `p_incomelog` VALUES ('1604', '11', '1', '下级购买MIF', '2017-08-12', '1502501941', '30', '29', '2');
-INSERT INTO `p_incomelog` VALUES ('1605', '6', '2', '下单购买', '2017-08-12', '2017', '30', '30', '50');
-INSERT INTO `p_incomelog` VALUES ('1606', '11', '1', '下级购买MIF', '2017-08-12', '1502502038', '30', '29', '2');
-INSERT INTO `p_incomelog` VALUES ('1607', '6', '2', '下单购买', '2017-08-12', '2017', '30', '30', '50');
-INSERT INTO `p_incomelog` VALUES ('1608', '11', '1', '下级购买MIF', '2017-08-12', '1502502070', '30', '29', '2');
-INSERT INTO `p_incomelog` VALUES ('1609', '6', '2', '下单购买', '2017-08-12', '2017', '30', '30', '50');
-INSERT INTO `p_incomelog` VALUES ('1610', '11', '1', '下级购买MIF', '2017-08-12', '1502502197', '30', '29', '2');
-INSERT INTO `p_incomelog` VALUES ('1611', '6', '2', '下单购买', '2017-08-12', '2017', '30', '30', '100');
-INSERT INTO `p_incomelog` VALUES ('1612', '11', '1', '下级购买MIF', '2017-08-12', '1502502288', '30', '29', '2');
-INSERT INTO `p_incomelog` VALUES ('1613', '6', '2', '下单购买', '2017-08-12', '2017', '30', '30', '100');
-INSERT INTO `p_incomelog` VALUES ('1614', '11', '1', '下级购买MIF', '2017-08-12', '1502502335', '30', '29', '4');
-INSERT INTO `p_incomelog` VALUES ('1615', '6', '2', '下单购买', '2017-08-12', '2017', '30', '30', '100');
-INSERT INTO `p_incomelog` VALUES ('1616', '11', '1', '下级购买MIF', '2017-08-12', '1502502397', '30', '29', '4');
+INSERT INTO `p_incomelog` VALUES ('1632', '6', '2', '购买公排', '2017-08-13', '1502614787', '67', '1', '100');
+INSERT INTO `p_incomelog` VALUES ('1633', '6', '2', '购买公排', '2017-08-13', '1502615014', '68', '1', '100');
+INSERT INTO `p_incomelog` VALUES ('1634', '6', '2', '购买公排', '2017-08-13', '1502615024', '69', '1', '100');
 
 -- ----------------------------
--- Table structure for p_menber
+-- Table structure for `p_menber`
 -- ----------------------------
 DROP TABLE IF EXISTS `p_menber`;
 CREATE TABLE `p_menber` (
@@ -131,21 +122,23 @@ CREATE TABLE `p_menber` (
   `bankname` varchar(64) DEFAULT NULL COMMENT '银行卡姓名',
   `bankfrom` varchar(100) DEFAULT NULL COMMENT '银行卡开户行',
   `mif` int(11) DEFAULT '0' COMMENT 'mif',
+  `isdelete` int(1) DEFAULT '0' COMMENT '0 未经用 1禁用',
+  `jifeng` int(11) DEFAULT '0' COMMENT '排位积分',
   PRIMARY KEY (`uid`)
 ) ENGINE=MyISAM AUTO_INCREMENT=32 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of p_menber
 -- ----------------------------
-INSERT INTO `p_menber` VALUES ('1', '李海龙', '123456', '18883287645', null, '4', '800.00', '1405', '0', '1,', null, null, '123456', '57.00', '李海龙1', '18883255551', '李海龙1', '95273231', '543252541', '李海龙1', '河南1', '1');
-INSERT INTO `p_menber` VALUES ('31', 'lihailong', '1', '18883287644', '', '1', '0', '0', '0', '31,', '1502518871', '2017-08-12', '1', '0', null, null, null, null, null, null, null, '0');
-INSERT INTO `p_menber` VALUES ('30', '李花花30', '123', '13217620955', '', '1', '1450.00', '0', '29', '26,27,28,29,30,', '1502501092', '2017-08-12', '123', '0', null, null, null, null, null, null, null, '2');
-INSERT INTO `p_menber` VALUES ('27', '李花花', '1', '13217620966', '', '1', '0', '0', '26', '26,27,', '1502500514', '2017-08-12', '1', '0', null, null, null, null, null, null, null, '0');
-INSERT INTO `p_menber` VALUES ('28', '李花花2', '1', '13217620965', '', '1', '0', '0', '27', '26,27,28,', '1502500580', '2017-08-12', '1', '0', null, null, null, null, null, null, null, '0');
-INSERT INTO `p_menber` VALUES ('29', '李花花3', '1', '13217620911', '', '1', '32.00', '0', '28', '26,27,28,29,', '1502500628', '2017-08-12', '1', '0', null, null, null, null, null, null, null, '0');
+INSERT INTO `p_menber` VALUES ('1', '李海龙1', '1234561', '18883287645', null, '4', '200.00', '1405', '0', '1,', null, '2017-08-13', '12345612', '700.00', '李海龙1', '18883255551', '李海龙1', '95273231', '543252541', '李海龙1', '河南1', '1', '0', '10');
+INSERT INTO `p_menber` VALUES ('31', 'lihailong', '1', '18883287644', '', '1', '0', '0', '0', '31,', '1502518871', '2017-08-12', '1', '0', null, null, null, null, null, null, null, '0', '0', '0');
+INSERT INTO `p_menber` VALUES ('30', '李花花30', '123', '13217620955', '', '1', '1450.00', '0', '29', '26,27,28,29,30,', '1502501092', '2017-08-12', '123', '0', null, null, null, null, null, null, null, '2', '0', '0');
+INSERT INTO `p_menber` VALUES ('27', '李花花', '1', '13217620966', '', '1', '0', '0', '26', '26,27,', '1502500514', '2017-08-12', '1', '0', null, null, null, null, null, null, null, '0', '0', '0');
+INSERT INTO `p_menber` VALUES ('28', '李花花2', '1', '13217620965', '', '1', '0', '0', '27', '26,27,28,', '1502500580', '2017-08-12', '1', '0', null, null, null, null, null, null, null, '0', '0', '0');
+INSERT INTO `p_menber` VALUES ('29', '李花花3', '1', '13217620911', '', '1', '32.00', '0', '28', '26,27,28,29,', '1502500628', '2017-08-12', '1', '0', null, null, null, null, null, null, null, '0', '0', '0');
 
 -- ----------------------------
--- Table structure for p_message
+-- Table structure for `p_message`
 -- ----------------------------
 DROP TABLE IF EXISTS `p_message`;
 CREATE TABLE `p_message` (
@@ -163,19 +156,9 @@ CREATE TABLE `p_message` (
 -- ----------------------------
 -- Records of p_message
 -- ----------------------------
-INSERT INTO `p_message` VALUES ('1', '46f1ef20b431125b7c7c5c6c20afa8b3', '9361', null, null, '1502508062', '2017-08-12', '2');
-INSERT INTO `p_message` VALUES ('2', '7c109182c31ba533250398f942912454', '9850', null, null, '1502508129', '2017-08-12', '2');
-INSERT INTO `p_message` VALUES ('3', 'b4ac6a9fd8732fcaaed93276751badb7', '6325', null, '2837423078@qq.com', '1502508188', '2017-08-12', '2');
-INSERT INTO `p_message` VALUES ('4', '50369b2bb96a25bf8e5e0fef5053b21e', '9179', null, '2837423078@qq.com', '1502508200', '2017-08-12', '2');
-INSERT INTO `p_message` VALUES ('5', '13817721c09e03eb41d408edadd74044', '3413', null, '2837423078@qq.com', '1502508248', '2017-08-12', '2');
-INSERT INTO `p_message` VALUES ('6', 'b7fcc9d8bf897fec22b12e5e52ec1541', '4484', null, '2837423078@qq.com', '1502508445', '2017-08-12', '2');
-INSERT INTO `p_message` VALUES ('7', '9d617faead2dc2f15a995d7c852b4381', '9923', null, '2837423078@qq.com', '1502509466', '2017-08-12', '2');
-INSERT INTO `p_message` VALUES ('8', '43333f072db0fa0d8ec11d426f6fda35', '5687', '18883286260', null, '1502516090', '2017-08-12', '2');
-INSERT INTO `p_message` VALUES ('9', 'b4386baf1490fa4b27d1b5803fca6c1f', '6483', '18883287644', null, '1502518304', '2017-08-12', '2');
-INSERT INTO `p_message` VALUES ('10', 'c8ba2008dafa23b6e869ed94853f37a2', '8722', '18883287644', null, '1502518830', '2017-08-12', '1');
 
 -- ----------------------------
--- Table structure for p_orderlog
+-- Table structure for `p_orderlog`
 -- ----------------------------
 DROP TABLE IF EXISTS `p_orderlog`;
 CREATE TABLE `p_orderlog` (
@@ -184,33 +167,25 @@ CREATE TABLE `p_orderlog` (
   `productid` int(11) NOT NULL,
   `productname` varchar(64) DEFAULT NULL,
   `productmoney` varchar(32) DEFAULT NULL COMMENT '产品带来的利润',
-  `states` int(11) NOT NULL DEFAULT '0' COMMENT '0待支付 1收益中 2已完成',
+  `states` int(1) NOT NULL DEFAULT '0' COMMENT '0待支付 1收益中 2已完成',
   `orderid` varchar(128) NOT NULL COMMENT '订单id',
   `addtime` int(12) DEFAULT NULL,
-  `num` int(5) DEFAULT NULL COMMENT '购买数量',
+  `num` int(5) DEFAULT NULL COMMENT '公排数量 购买数量',
   `prices` varchar(40) DEFAULT NULL COMMENT '购买单价',
   `totals` varchar(40) DEFAULT NULL,
   `addymd` date DEFAULT NULL,
+  `type` int(2) DEFAULT '1' COMMENT '1下单购买MIF  2公排',
+  `ceng` int(3) DEFAULT NULL COMMENT '公排层数',
+  `bianhao` int(11) DEFAULT NULL COMMENT '公排编号',
   PRIMARY KEY (`logid`)
-) ENGINE=MyISAM AUTO_INCREMENT=57 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=70 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of p_orderlog
 -- ----------------------------
-INSERT INTO `p_orderlog` VALUES ('46', '1', '1', 'MIF', '2', '1', '2', '1502282775', '1', '50', '50', null);
-INSERT INTO `p_orderlog` VALUES ('47', '1', '1', 'MIF', '50', '1', '2', '1502282775', '2', '100', '100', null);
-INSERT INTO `p_orderlog` VALUES ('48', '1', '1', 'MIF', '50', '1', '2', '1502282847', '1', '50', '50', '2017-08-09');
-INSERT INTO `p_orderlog` VALUES ('49', '30', '1', 'MIF', '50', '1', '2', '1502501848', '1', '50', '50', '2017-08-12');
-INSERT INTO `p_orderlog` VALUES ('50', '30', '1', 'MIF', '50', '1', '2', '1502501941', '1', '50', '50', '2017-08-12');
-INSERT INTO `p_orderlog` VALUES ('51', '30', '1', 'MIF', '50', '1', '2', '1502502038', '1', '50', '50', '2017-08-12');
-INSERT INTO `p_orderlog` VALUES ('52', '30', '1', 'MIF', '50', '1', '2', '1502502070', '1', '50', '50', '2017-08-12');
-INSERT INTO `p_orderlog` VALUES ('53', '30', '1', 'MIF', '50', '1', '2', '1502502197', '1', '50', '50', '2017-08-12');
-INSERT INTO `p_orderlog` VALUES ('54', '30', '1', 'MIF', '50', '1', '2', '1502502288', '2', '100', '100', '2017-08-12');
-INSERT INTO `p_orderlog` VALUES ('55', '30', '1', 'MIF', '50', '1', '2', '1502502335', '2', '100', '100', '2017-08-12');
-INSERT INTO `p_orderlog` VALUES ('56', '30', '1', 'MIF', '50', '1', '2', '1502502397', '2', '100', '100', '2017-08-12');
 
 -- ----------------------------
--- Table structure for p_product
+-- Table structure for `p_product`
 -- ----------------------------
 DROP TABLE IF EXISTS `p_product`;
 CREATE TABLE `p_product` (
@@ -241,7 +216,7 @@ INSERT INTO `p_product` VALUES ('6', '3', '234', '/register', '234', null, null,
 INSERT INTO `p_product` VALUES ('7', '萝卜种子', '萝卜种子', '/register/Public/Uploads/2017-05-31/592ec9fc43a05.png', '20', null, null, null, null, null, '1', '2017-05-31 21:49:48', '0');
 
 -- ----------------------------
--- Table structure for p_rite
+-- Table structure for `p_rite`
 -- ----------------------------
 DROP TABLE IF EXISTS `p_rite`;
 CREATE TABLE `p_rite` (
@@ -264,7 +239,7 @@ INSERT INTO `p_rite` VALUES ('7', '0.02', '07-07');
 INSERT INTO `p_rite` VALUES ('10', '0.04', '08-12');
 
 -- ----------------------------
--- Table structure for p_user
+-- Table structure for `p_user`
 -- ----------------------------
 DROP TABLE IF EXISTS `p_user`;
 CREATE TABLE `p_user` (

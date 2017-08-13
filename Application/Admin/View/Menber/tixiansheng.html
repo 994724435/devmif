@@ -19,12 +19,13 @@
 					<th>用户ID</th>
 					<th>提现方式</th>
 					<th>充值金额</th>
-					<th>账户名</th>
-					<th>账号</th>
 					<th>姓名</th>
+					<th>微信</th>
+					<th>支付宝</th>
+
 					<th>卡号</th>
+					<th>开户姓名</th>
 					<th>开户行</th>
-					<th>开户地区</th>
 					<th>操作</th>
 		        </tr>
 		      </thead>
@@ -46,12 +47,14 @@
 				  <td scope="row">{$v.userid}</td>
 				  <td>{$v.reson}</td>
 				  <td>{$v.income}</td>
-				  <td>{$v.accountname}</td>
-				  <td>{$v.accountnum}</td>
-				  <td>{$v.carmame}</td>
-				  <td>{$v.carnum}</td>
-				  <td>{$v.carhang}</td>
-				  <td>{$v.caraddr}</td>
+				  <td>{$v.realname}</td>
+
+				  <td>{$v.weixin}</td>
+				  <td>{$v.zhifubao}</td>
+				  <td>{$v.bank}</td>
+				  <td>{$v.bankname}</td>
+				  <td>{$v.bankfrom}</td>
+
 		          <td><if condition="$manager eq 2"><a href="__ROOT__/index.php/Admin/Menber/istixian/id/{$v.id}/state/1">通 过</a> | <a href="__ROOT__/index.php/Admin/Menber/istixian/id/{$v.id}/state/2">不 通 过</a><elseif condition="$manager eq 1"/>暂无权限操作</if></td>
 		        </tr>
 		      	<?php $i++ ;?>

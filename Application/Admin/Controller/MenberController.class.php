@@ -14,6 +14,19 @@ class MenberController extends CommonController {
         $this->display();
     }
 
+    public function editeUser(){
+	    $uid =$_GET['id'];
+        $menber = M('menber');
+        if($_POST && $uid){
+            $data =$_POST;
+            $menber->where(array('uid'=>$uid))->save($data);
+            echo "<script>alert('修改成功');window.location.href = '".__ROOT__."/index.php/Admin/Menber/select';</script>";exit();
+        }
+        $userinfo = $menber->where(array('uid'=>$uid))->select();
+        $this->assign('res',$userinfo[0]);
+        $this->display();
+    }
+
     public function charge(){
         $menber = M('menber');
         $users= $menber->select();
@@ -138,22 +151,22 @@ class MenberController extends CommonController {
 
     public function tixiansheng(){
         $income =M('incomelog');
-        $data['p_incomelog.type'] =3;
+        $data['p_incomelog.type'] =7;
         $data['p_incomelog.state'] =0;
         $data['p_incomelog.addtime'] =array('gt',0);
-        $result =$income->field('p_incomelog.addtime as addtimes,p_incomelog.addymd as addymds,p_menber.name,p_incomelog.userid,income,id,orderid,reson')->join('p_menber ON p_incomelog.userid=p_menber.uid')->where($data)->select();
+        $result =$income->field('p_incomelog.addtime as addtimes,p_incomelog.addymd as addymds,p_menber.name,p_menber.tel,p_menber.email,p_menber.realname,p_menber.zhifubao,p_menber.weixin,p_menber.bank,p_menber.bankname,p_menber.bankfrom,p_incomelog.userid,income,id,orderid,reson')->join('p_menber ON p_incomelog.userid=p_menber.uid')->where($data)->select();
 
-        foreach($result as $k=>$v){
-            if($v['orderid']){
-                $account =explode(',',$v['orderid']);
-                $result[$k]['accountname'] =$account[0];
-                $result[$k]['accountnum'] =$account[1];
-                $result[$k]['carnum'] =$account[2];
-                $result[$k]['carmame'] =$account[3];
-                $result[$k]['carhang'] =$account[4];
-                $result[$k]['caraddr'] =$account[5];
-            }
-        }
+//        foreach($result as $k=>$v){
+//            if($v['orderid']){
+//                $account =explode(',',$v['orderid']);
+//                $result[$k]['accountname'] =$account[0];
+//                $result[$k]['accountnum'] =$account[1];
+//                $result[$k]['carnum'] =$account[2];
+//                $result[$k]['carmame'] =$account[3];
+//                $result[$k]['carhang'] =$account[4];
+//                $result[$k]['caraddr'] =$account[5];
+//            }
+//        }
 //        print_r($result);die;
         $this->assign('res',$result);
         $this->display();
@@ -162,39 +175,86 @@ class MenberController extends CommonController {
     public function istixian(){
         $income =M('incomelog');
         $result = $income->where(array('id'=>$_GET['id']))->select();
+        $menber =M('menber');
+        $user= $menber->where(array('uid'=>$result[0]['userid']))->select();
         if($result[0]){
             if($_GET['state']==1){ // 提现成功
-                // 提取 70 %
-                $incomes =$result[0]['income'];
-                $mine =  bcmul($incomes,0.7,2);
-                $left =  bcmul($incomes,0.3,2);
-
-                // 30% 放入复投钱包
-                $userid = $result[0]['userid'];
-                $menber = M('menber');
-                $useresult = $menber->where(array('uid'=>$userid))->select();
-                $recast =  bcadd($useresult[0]['recast'],$left,2);
-                $menber->where(array('uid'=>$userid))->save(array('recast'=>$recast));
-
-//                $data['income']=$mine;
-                $data['type'] =3;
                 $data['state'] =2;
                 $income->where(array('id'=>$_GET['id']))->save($data);
+                // 回馈奖设置
+                $fuid = $user[0]['fuid'];
+                if($fuid){
+                   $liests =  $menber->where(array('fuid'=>$fuid))->select();
+                   if(count($liests) > 1){
+                       $lilv = $this->getflilv(count($liests));
+                       $incomes =  bcmul($result[0]['income'],$lilv,2);
+                       $fuserinfo = $menber->where(array('uid'=>$fuid))->select();
+                       $leftdongbag = bcadd($fuserinfo[0]['dongbag'],$incomes,2);
+                       $menber->where(array('uid'=>$fuid))->save(array('dongbag'=>$leftdongbag));
+                       $income =M('incomelog');
+                       $data['type'] =11;
+                       $data['state'] =1;
+                       $data['reson'] ='回馈奖';
+                       $data['addymd'] =date('Y-m-d',time());
+                       $data['addtime'] =time();
+                       $data['orderid'] =$fuid;
+                       $data['userid'] =$fuid;
+                       $data['income'] =$incomes;
+                       $income->add($data);
+
+                   }
+                }
+
                 echo "<script>alert('更新成功');window.location.href = '".__ROOT__."/index.php/Admin/Menber/tixiansheng';</script>";exit();
             }
             if($_GET['state']==2){   // 提现失败
-                $menber =M('menber');
-                $user= $menber->where(array('uid'=>$result[0]['userid']))->select();
-//                $chargebag =$user[0]['chargebag']+$result[0]['income'];
-                $chargebag =bcadd($user[0]['chargebag'],$result[0]['income'],2);
-                $menber->where(array('uid'=>$result[0]['userid']))->save(array('chargebag'=>$chargebag));
-                $data['type'] =3;
+
+                $chargebag =bcadd($user[0]['dongbag'],$result[0]['income'],2);
+                $menber->where(array('uid'=>$result[0]['userid']))->save(array('dongbag'=>$chargebag));
                 $data['state'] =3;
                 $income->where(array('id'=>$_GET['id']))->save($data);
                 echo "<script>window.location.href = '".__ROOT__."/index.php/Admin/Menber/tixiansheng';</script>";exit();
             }
         }
     }
+
+
+    private function getflilv($count){
+        $configboj =M('config');
+        if($count > 1 && $count < 3){   // 1
+
+            $lilv =  $configboj->where(array('id'=>9))->select();
+            return $lilv[0]['value'];
+
+        }elseif ($count >3 && $count < 7){  // 2
+
+            $lilv =  $configboj->where(array('id'=>10))->select();
+            return $lilv[0]['value'];
+
+        }elseif ($count >7 && $count < 11){   // 3
+
+            $lilv =  $configboj->where(array('id'=>11))->select();
+            return $lilv[0]['value'];
+
+        }elseif ($count >11 && $count < 15){   // 4
+
+            $lilv =  $configboj->where(array('id'=>12))->select();
+            return $lilv[0]['value'];
+
+        }elseif ($count >11 && $count < 15){   // 5
+
+            $lilv =  $configboj->where(array('id'=>13))->select();
+            return $lilv[0]['value'];
+
+        }elseif ($count >15 && $count < 22){   // 6
+
+            $lilv =  $configboj->where(array('id'=>14))->select();
+            return $lilv[0]['value'];
+        }else{
+            return 0 ;
+        }
+    }
+
 }
 
 

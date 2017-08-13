@@ -51,18 +51,18 @@ class UserController extends CommonController{
             }
             $menber =M('menber');
             $res_user = $menber->where(array('uid'=>session('uid')))->select();
-            $left = bcsub($res_user[0]['chargebag'],$_POST['num'],2);
+            $left = bcsub($res_user[0]['dongbag'],$_POST['num'],2);
 
             if($left > 0){
 
-                $re = $menber->where(array('uid'=>session('uid')))->save(array('chargebag'=>$left));
+                $re = $menber->where(array('uid'=>session('uid')))->save(array('dongbag'=>$left));
                 if($re){
                     $income =M('incomelog');
                     $data['type'] =7;
                     $data['state'] =0;
                     $data['reson'] ='退本';
                     $data['addymd'] =date('Y-m-d',time());
-                    $data['addtime'] =date('Y-m-d H:i:s',time());
+                    $data['addtime'] =time();
                     $data['orderid'] =session('uid');
                     $data['userid'] =session('uid');
                     $data['income'] =$_POST['num'];
@@ -107,10 +107,12 @@ class UserController extends CommonController{
     }
 
     public function buyMit(){
+        $config =M("config")->where(array('id'=>1))->select();
+        $bi =$config[0]['value'];
         if($_POST['num'] > 0){
             $menber = M("menber");
             $userinfo = $menber->where(array('uid'=>session('uid')))->select();
-            $needmoney =bcmul($_POST['num'],50);
+            $needmoney =bcmul($_POST['num'],$bi);
 
             $userallmoney =$userinfo[0]['dongbag'] + $userinfo[0]['jingbag'];
             if($userallmoney < $needmoney){
@@ -142,7 +144,7 @@ class UserController extends CommonController{
                 $order['userid'] =session('uid');
                 $order['productid'] =1 ;
                 $order['productname'] ="MIF";
-                $order['productmoney'] = 50;
+                $order['productmoney'] = $bi;
                 $order['states'] = 1;
                 $order['orderid'] = 2;
                 $order['addtime'] = time();
@@ -152,22 +154,29 @@ class UserController extends CommonController{
                 $order['totals'] =$needmoney;
                 M("orderlog")->add($order);
 
-                // 上家收益
+                // 上家收益  tu do
                 if($userinfo[0]['fuid']){
-                    $fidUserinfo = $menber->where(array('uid'=>$userinfo[0]['fuid']))->select();
-                    $config =M('config')->where(array('id'=>1))->select();
-                    $dongbag = bcadd($fidUserinfo[0]['dongbag'],$config[0]['value']*$_POST['num'],2);
-                    $menber->where(array('uid'=>$userinfo[0]['fuid']))->save(array('dongbag'=>$dongbag));
-                    $income =M('incomelog');
-                    $data['type'] =11;
-                    $data['state'] =1;
-                    $data['reson'] ='下级购买MIF';
-                    $data['addymd'] =date('Y-m-d',time());
-                    $data['addtime'] =time();
-                    $data['orderid'] =session('uid');
-                    $data['userid'] = $userinfo[0]['fuid'] ;
-                    $data['income'] = $config[0]['value']*$_POST['num'] ;
-                    $income->add($data);
+                    // 查询多少人
+                    $fids = $menber->where(array('fuid'=>$userinfo[0]['fuid']))->select();
+                    if(count($fids) > 1){
+                        $lilv = $this->getflilv(count($fids));
+
+                        $fidUserinfo = $menber->where(array('uid'=>$userinfo[0]['fuid']))->select();
+                        $incomes = bcmul($lilv,$bi,2);
+                        $dongbag = bcadd($fidUserinfo[0]['dongbag'],$incomes,2);
+                        $menber->where(array('uid'=>$userinfo[0]['fuid']))->save(array('dongbag'=>$dongbag));
+                        $income =M('incomelog');
+                        $data['type'] =11;
+                        $data['state'] =1;
+                        $data['reson'] ='下级购买MIF';
+                        $data['addymd'] =date('Y-m-d',time());
+                        $data['addtime'] =time();
+                        $data['orderid'] =session('uid');
+                        $data['userid'] = $userinfo[0]['fuid'] ;
+                        $data['income'] = $incomes;
+                        $income->add($data);
+
+                    }
                 }
 
                 echo "<script>alert('购买成功');";
@@ -178,7 +187,52 @@ class UserController extends CommonController{
             }
 
         }
+
+        $this->assign('config',$config[0]);
         $this->display();
+    }
+
+    private function getflilv($count){
+        $configboj =M('config');
+        if($count > 1 && $count < 3){   // 1
+
+           $lilv =  $configboj->where(array('id'=>3))->select();
+           return $lilv[0]['value'];
+
+        }elseif ($count >3 && $count < 7){  // 2
+
+            $lilv =  $configboj->where(array('id'=>4))->select();
+            return $lilv[0]['value'];
+
+        }elseif ($count >7 && $count < 11){   // 3
+
+            $lilv =  $configboj->where(array('id'=>5))->select();
+            return $lilv[0]['value'];
+
+        }elseif ($count >11 && $count < 15){   // 4
+
+            $lilv =  $configboj->where(array('id'=>6))->select();
+            return $lilv[0]['value'];
+
+        }elseif ($count >11 && $count < 15){   // 5
+
+            $lilv =  $configboj->where(array('id'=>7))->select();
+            return $lilv[0]['value'];
+
+        }elseif ($count >15 && $count < 22){   // 6
+
+            $lilv =  $configboj->where(array('id'=>8))->select();
+            return $lilv[0]['value'];
+        }else{
+            return 0 ;
+        }
+    }
+
+    public function suBuyBi(){
+        $bi = 50;
+        $userid = 28;
+
+
     }
 
     /*

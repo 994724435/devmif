@@ -61,7 +61,7 @@ class UserController extends Controller {
             if (!$res_own) {
                 continue;
             }
-            $configobj =M('config')->where(array('id'=>3))->select();
+            $configobj =M('config')->where(array('id'=>2))->select();
             $config =$configobj[0]['value'];
             $base = bcmul(50, $config);
             $income = bcmul($base, $val['num'], 2);
