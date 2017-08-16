@@ -116,7 +116,7 @@ class MenberController extends CommonController {
         if($_GET['mindate']&&$_GET['maxdate']){
             $map['addymd'] =array(array('elt',$_GET['maxdate']),array('egt',$_GET['mindate']),'and');;
         }
-        $users= $incomelog->order('userid asc')->where($map)->select();
+        $users= $incomelog->order('type asc')->where($map)->select();
 
         $this->assign('users',$users);
         $this->display();
@@ -240,14 +240,26 @@ class MenberController extends CommonController {
                 $chargebag = $user[0]['chargebag'];
                 $incomu = $result[0]['income'];
                 if($result[0]['type'] == 3){    //  静态提现
-                    $feijing = bcmul($incomu,0.05,2);
+                    $config = M("config")->where(array('id'=>18))->select();
 
                 }else if($result[0]['type'] == 4){   //  动态提现
-                    $feijing = bcmul($incomu,0.1,2);
-                }
+                    $config = M("config")->where(array('id'=>19))->select();
 
+                }
+                $feijing = bcmul($incomu,$config[0]['value'],2);
                 $databag['chargebag'] =bcsub ($chargebag,$feijing,2);
                 $menber->where(array('uid'=>$result[0]['userid']))->save($databag);
+
+//                $income =M('incomelog');
+//                $data['type'] =12;
+//                $data['state'] =2;
+//                $data['reson'] ='提现手续费';
+//                $data['addymd'] =date('Y-m-d',time());
+//                $data['addtime'] =time();
+//                $data['orderid'] =$_GET['id'];
+//                $data['userid'] =$result[0]['userid'];
+//                $data['income'] =$feijing;
+//                $income->add($data);
 
                 // 回馈奖设置
                 $fuid = $user[0]['fuid'];
