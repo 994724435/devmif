@@ -31,7 +31,7 @@
         <foreach name="res" item='v'>
         <ul class="flex">
             <li>{$v.reson}</li>
-            <li>{$v.times}级下线</li>
+            <li>{$v.times}级下线<if condition="$v.reson eq '下级购买MIF'"> {$v.orderid} 共{$v.cont}个</if></li>
             <li> 上级编号{$v.shang}</li>
         </ul>
         </foreach>

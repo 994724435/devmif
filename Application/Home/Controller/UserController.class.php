@@ -144,6 +144,7 @@ class UserController extends CommonController{
                 $data['orderid'] =session('uid');
                 $data['userid'] =session('uid');
                 $data['income'] =$needmoney;
+
                 $income->add($data);
                 $resreson ="购买成功";
 
@@ -182,6 +183,7 @@ class UserController extends CommonController{
                         $data['orderid'] =session('uid');
                         $data['userid'] = $userinfo[0]['fuid'] ;
                         $data['income'] = $incomes;
+                        $data['cont'] = $_POST['num'];
                         $income->add($data);
 
                     }
@@ -304,7 +306,7 @@ class UserController extends CommonController{
 //            $shang = M('orderlog')->where(array('userid'=>$usrinfo[0]['fuid']))->order('logid DESC')->select();
             $result[$k]['shang'] =$usrinfo[0]['fuid'];
         }
-
+//        print_r($result);die;
         $this->assign('res',$result);
         $this->display();
     }
