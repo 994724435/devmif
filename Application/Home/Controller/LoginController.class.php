@@ -49,21 +49,21 @@ class LoginController extends Controller{
                     exit();
                 }
             }
-            if(session('messageEid')){
-                $message =M('message')->where(array('session'=>session('messageEid')))->select();
-                if($message[0]['cont']==$_POST['telcode'] ||$message[0]['cont']==$_POST['ecode']){
-
-                }else{
-                    M('message')->where(array('session'=>session('messageEid')))->delete();
-                    echo "<script>alert('验证码错误');</script>";
-                    $this->display();
-                    exit();
-                }
-            }else{
-                echo "<script>alert('验证码未输入');</script>";
-                $this->display();
-                exit();
-            }
+//            if(session('messageEid')){
+//                $message =M('message')->where(array('session'=>session('messageEid')))->select();
+//                if($message[0]['cont']==$_POST['telcode'] ||$message[0]['cont']==$_POST['ecode']){
+//
+//                }else{
+//                    M('message')->where(array('session'=>session('messageEid')))->delete();
+//                    echo "<script>alert('验证码错误');</script>";
+//                    $this->display();
+//                    exit();
+//                }
+//            }else{
+//                echo "<script>alert('验证码未输入');</script>";
+//                $this->display();
+//                exit();
+//            }
 
             $fid = $_GET['fid'];
             $data['name'] = $_POST['username'];
@@ -73,6 +73,9 @@ class LoginController extends Controller{
             $data['email'] = $_POST['email'];
             $data['addtime'] = time();
             $data['addymd'] = date('Y-m-d',time());
+            $data['dongbag'] ='0';
+            $data['jingbag'] = '0';
+            $data['chargebag'] = '0';
             if($fid){
                 $data['fuid'] = $fid;
                 $fidUserinfo = $menber->where(array('uid'=>$fid))->select();
@@ -102,16 +105,16 @@ class LoginController extends Controller{
                 $fidincome['dongbag'] = bcadd($fidUserinfo[0]['dongbag'],$config[0]['value'],2);
                 $menber->where(array('uid'=>$fid))->save($fidincome);
 
-                $income =M('incomelog');
-                $data['type'] =5;
-                $data['state'] =1;
-                $data['reson'] ='注册下级';
-                $data['addymd'] =date('Y-m-d',time());
-                $data['addtime'] =time();
-                $data['orderid'] =session('uid');
-                $data['userid'] = $fid ;
-                $data['income'] = 2 ;
-                $income->add($data);
+//                $income =M('incomelog');
+//                $data['type'] =5;
+//                $data['state'] =1;
+//                $data['reson'] ='注册下级';
+//                $data['addymd'] =date('Y-m-d',time());
+//                $data['addtime'] =time();
+//                $data['orderid'] =session('uid');
+//                $data['userid'] = $fid ;
+//                $data['income'] = 2 ;
+//                $income->add($data);
             }
 
             echo "<script>window.location.href='".__ROOT__."/index.php/Home/Index/index';</script>";

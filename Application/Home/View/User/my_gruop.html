@@ -28,16 +28,19 @@
 	</header>
 	<div class="mui-content">
 		<div class="mui-content">
+        <foreach name="res" item='v'>
         <ul class="flex">
-            <li>推荐奖励</li>
-            <li>一级下线</li>
-            <li>张三</li>
+            <li>{$v.reson}</li>
+            <li>{$v.times}级下线</li>
+            <li> 上级编号{$v.shang}</li>
         </ul>
-        <ul class="flex">
-            <li>回馈奖励</li>
-            <li>二级下线</li>
-            <li>张三</li>
-        </ul>
+        </foreach>
+        <!--<ul class="flex">-->
+            <!--<li>回馈奖励</li>-->
+            <!--<li>二级下线</li>-->
+            <!--<li>张三</li>-->
+            <!--<li>张三</li>-->
+        <!--</ul>-->
         
       
     </div>

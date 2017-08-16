@@ -48,22 +48,32 @@ class UserController extends Controller {
         $incomelog =M('incomelog');
         $res = $incomelog->where(array('addymd'=>date('Y-m-d'),'type'=>10))->select();
 
-        if($res[0]){
-            print_r('今日受益已结算');die;
-        }
+//        if($res[0]){
+//            print_r('今日受益已结算');die;
+//        }
         $orderlog =M('orderlog');
         //所有
-        $allorderlog = $orderlog->where(array('state'=>1,'productid'=>1))->select();
+        $allorderlog = $orderlog->where(array('states'=>1,'productid'=>1))->select();
+
         $menber = M("menber");
+
+        if(!$allorderlog[0]){
+            print_r('暂无收益');die;
+        }
+
         foreach($allorderlog as $key=>$val) {
             //自己受益
             $res_own = $this->getusernums($val['userid'], $val['logid'], $val['num']);
             if (!$res_own) {
+                echo $val['logid']."<br>";
                 continue;
             }
             $configobj =M('config')->where(array('id'=>2))->select();
             $config =$configobj[0]['value'];
-            $base = bcmul(50, $config);
+            $mif = M('config')->where(array('id'=>1))->select();
+
+            $base = bcmul ($mif[0]['value'], $config,2);
+
             $income = bcmul($base, $val['num'], 2);
             $data['state'] = 1;
             $data['reson'] = "静态收益";
@@ -91,13 +101,17 @@ class UserController extends Controller {
     public function getusernums($userid,$orderid,$num){
         $income =M('incomelog');
         $daycomelogs = $income->where(array('type'=>10,'userid'=>$userid,'orderid'=>$orderid))->select();
+
         $daycome =0;
         foreach($daycomelogs as $k=>$v){
             $daycome=bcadd($daycome,$v['income'],2);
         }
-        $endmoney = 90 * $num;
+
+        $config = M('config')->where(array('id'=>1))->select();
+        $endmoney = bcmul(1.6,$config[0]['value']);
 
         if($daycome>=$endmoney){
+            M('orderlog')->where(array('logid'=>$orderid))->save(array('states'=>2));
             return 0;
         }else{
             return 1;
@@ -164,7 +178,7 @@ class UserController extends Controller {
 //            M("Rite")->where(array('date'=>$today))->save(array('cont'=>$config[0]['val'],'date'=>$today));
             echo 2;exit();
         }else{
-            $config= M("Config")->where(array('id'=>1))->select();
+            $config= M("Config")->where(array('id'=>2))->select();
             M("Rite")->add(array('cont'=>$config[0]['value'],'date'=>$today));
             echo 1;exit();
         }

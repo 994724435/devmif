@@ -34,9 +34,13 @@ class MenberController extends CommonController {
             if($_POST['num']<=0){
                 echo "<script>alert('请输入正确金额');window.location.href = '".__ROOT__."/index.php/Admin/Menber/charge';</script>";exit();
             }
-            $user = $menber->where(array('uid'=>$_POST['user']))->select();
+            $user = $menber->where(array('tel'=>$_POST['user']))->select();
+            if(!$user[0]){
+                echo "<script>alert('用户不存在');window.location.href = '".__ROOT__."/index.php/Admin/Menber/charge';</script>";exit();
+            }
+
             $chargebag= $user[0]['chargebag']+$_POST['num'];
-            $res = $menber->where(array('uid'=>$_POST['user']))->save(array('chargebag'=>$chargebag));
+            $res = $menber->where(array('tel'=>$_POST['user']))->save(array('chargebag'=>$chargebag));
 
             $datas['state'] = 1;
             $datas['reson'] = "充值";
@@ -44,7 +48,7 @@ class MenberController extends CommonController {
             $datas['addymd'] = date('Y-m-d',time());
             $datas['addtime'] = date('Y-m-d H:i:s',time());
             $datas['orderid'] = $_SESSION['uname'];
-            $datas['userid'] = $_POST['user'];
+            $datas['userid'] = $user[0]['uid'];
             $datas['income'] = $_POST['num'];
             $comelog =M('incomelog');
             $comelog->add($datas);
@@ -58,6 +62,42 @@ class MenberController extends CommonController {
 
         }
         $this->assign('users',$users);
+        $this->display();
+    }
+
+    public function addUser(){
+        if($_POST ){
+            $menber = M('menber');
+            if($_POST['fuid']){
+                $fuids = $menber->where(array('uid'=>$_POST['fuid']))->select();
+                if($fuids[0]){
+                    $fids =$fuids[0]['fuids'];
+                }else{
+                    echo "<script>alert('上级用户不存在');window.location.href = '".__ROOT__."/index.php/Admin/Menber/addUser';</script>";
+                    $this->display();
+                    exit();
+                }
+            }
+
+            $isuser= $menber->where(array('tel'=>$_POST['tel']))->select();
+            if($isuser[0]){
+                echo "<script>alert('电话已注册');window.location.href = '".__ROOT__."/index.php/Admin/Menber/addUser';</script>";
+                $this->display();
+                exit();
+            }
+            $data =$_POST;
+
+            $uid =  $menber->add($data);
+
+            if($fids){
+                $fuid1['fuids'] = $fids.$uid.',';
+            }else{
+                $fuid1['fuids'] = $uid.',';
+            }
+
+            $menber->where(array('uid'=>$uid))->save($fuid1);
+            echo "<script>alert('添加成功');window.location.href = '".__ROOT__."/index.php/Admin/Menber/select';</script>";exit();
+        }
         $this->display();
     }
 
@@ -151,7 +191,8 @@ class MenberController extends CommonController {
 
     public function tixiansheng(){
         $income =M('incomelog');
-        $data['p_incomelog.type'] =7;
+//        $data['p_incomelog.type'] = 7;
+        $data['p_incomelog.type'] = array('in','3,4,7');
         $data['p_incomelog.state'] =0;
         $data['p_incomelog.addtime'] =array('gt',0);
         $result =$income->field('p_incomelog.addtime as addtimes,p_incomelog.addymd as addymds,p_menber.name,p_menber.tel,p_menber.email,p_menber.realname,p_menber.zhifubao,p_menber.weixin,p_menber.bank,p_menber.bankname,p_menber.bankfrom,p_incomelog.userid,income,id,orderid,reson')->join('p_menber ON p_incomelog.userid=p_menber.uid')->where($data)->select();
@@ -172,6 +213,19 @@ class MenberController extends CommonController {
         $this->display();
     }
 
+    public function tixiandetail(){
+        if($_POST){
+            M('incomelog')->where(array('id'=>$_GET['id']))->save(array('cont'=>$_POST['reson']));
+            echo "<script>window.location.href = '".__ROOT__."/index.php/Admin/Menber/istixian/id/".$_GET['id']."/state/".$_POST['state']."';</script>";exit();
+        }
+        $income =M('incomelog');
+        $data['p_incomelog.id'] = $_GET['id'];
+        $result =$income->field('p_incomelog.addtime as addtimes,p_incomelog.addymd as addymds,p_menber.name,p_menber.tel,p_menber.email,p_menber.realname,p_menber.zhifubao,p_menber.weixin,p_menber.bank,p_menber.bankname,p_menber.bankfrom,p_incomelog.userid,income,id,orderid,reson')->join('p_menber ON p_incomelog.userid=p_menber.uid')->where($data)->select();
+        $this->assign('res',$result[0]);
+
+        $this->display();
+    }
+
     public function istixian(){
         $income =M('incomelog');
         $result = $income->where(array('id'=>$_GET['id']))->select();
@@ -181,6 +235,20 @@ class MenberController extends CommonController {
             if($_GET['state']==1){ // 提现成功
                 $data['state'] =2;
                 $income->where(array('id'=>$_GET['id']))->save($data);
+
+                // 收取提现利率
+                $chargebag = $user[0]['chargebag'];
+                $incomu = $result[0]['income'];
+                if($result[0]['type'] == 3){    //  静态提现
+                    $feijing = bcmul($incomu,0.05,2);
+
+                }else if($result[0]['type'] == 4){   //  动态提现
+                    $feijing = bcmul($incomu,0.1,2);
+                }
+
+                $databag['chargebag'] =bcsub ($chargebag,$feijing,2);
+                $menber->where(array('uid'=>$result[0]['userid']))->save($databag);
+
                 // 回馈奖设置
                 $fuid = $user[0]['fuid'];
                 if($fuid){
@@ -209,8 +277,20 @@ class MenberController extends CommonController {
             }
             if($_GET['state']==2){   // 提现失败
 
-                $chargebag =bcadd($user[0]['dongbag'],$result[0]['income'],2);
-                $menber->where(array('uid'=>$result[0]['userid']))->save(array('dongbag'=>$chargebag));
+                if($result[0]['type'] == 3){    //  静态提现
+                    $chargebag =bcadd($user[0]['jingbag'],$result[0]['income'],2);
+                    $databag['jingbag'] =$chargebag ;
+
+                }else if($result[0]['type'] == 4){   //  动态提现
+                    $chargebag =bcadd($user[0]['dongbag'],$result[0]['income'],2);
+                    $databag['dongbag'] = $chargebag ;
+
+                }else if($result[0]['type'] == 7){   // chargebag
+                    $chargebag =bcadd($user[0]['chargebag'],$result[0]['income'],2);
+                    $databag['chargebag'] = $chargebag ;
+                }
+
+                $menber->where(array('uid'=>$result[0]['userid']))->save($databag);
                 $data['state'] =3;
                 $income->where(array('id'=>$_GET['id']))->save($data);
                 echo "<script>window.location.href = '".__ROOT__."/index.php/Admin/Menber/tixiansheng';</script>";exit();
@@ -254,6 +334,7 @@ class MenberController extends CommonController {
             return 0 ;
         }
     }
+
 
 }
 

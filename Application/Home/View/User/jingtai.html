@@ -30,7 +30,7 @@
 		<div class="mui-content">
             <foreach name="res" item='v'>
         <ul class="flex">
-            <li>{$v.reson}</li>
+            <li>{$v.reson}<if condition="$v.type eq 3"><if condition="$v.state eq 0">(待审核)<elseif condition="$v.state eq 2"/>(成功)<elseif condition="$v.state eq 3"/>(失败:{$v.cont}) </if> </if></li>
             <li>{$v.income}</li>
             <li class="time"><?php echo date('Y-m-d H:i:s',$v['addtime']);?></li>
         </ul>

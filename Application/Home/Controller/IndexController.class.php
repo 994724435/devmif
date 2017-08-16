@@ -111,7 +111,7 @@ class IndexController extends CommonController {
 
     public function gongPai(){
         $orderlog = M('orderlog');
-        $allorder = $orderlog->where(array('type'=>2))->order('logid ASC')->select();
+        $allorder = $orderlog->where(array('type'=>2,'userid'=>session('uid')))->order('logid ASC')->select();
 //        print_r($allorder);die;
         $this->assign('res',$allorder[0]);
         $this->display();
@@ -145,10 +145,24 @@ class IndexController extends CommonController {
                         $afterceng =$v['ceng']+1;
                         $orderlog->where(array('logid'=>$v['logid']))->save(array('ceng'=>$afterceng));
                         $fengs = bcpow(2,$afterceng) ;
-                        if($v['userid']){
+                        if($v['userid']){   // 积分增加
                             $newuser = $menber->where(array('uid'=>$v['userid']))->select();
                             $newfeng = $newuser[0]['jifeng'] + $fengs;
-                            $menber->where(array('uid'=>$v['userid']))->save(array('jifeng'=>$newfeng));
+                            $dongbag = $newuser[0]['dongbag'] + $fengs;
+                            $menber->where(array('uid'=>$v['userid']))->save(array('jifeng'=>$newfeng,'dongbag'=>$dongbag));
+
+                            // 收入日志
+                            $income =M('incomelog');
+                            $data['type'] = 11 ;
+                            $data['state'] = 1 ;
+                            $data['reson'] ='公排收益';
+                            $data['addymd'] =date('Y-m-d',time());
+                            $data['addtime'] =time();
+                            $data['orderid'] =session('uid');
+                            $data['userid'] = $v['userid'];
+                            $data['income'] = $fengs;
+                            $income->add($data);
+
                         }
                     }
                 }
@@ -191,6 +205,9 @@ class IndexController extends CommonController {
             echo "</script>";
             exit;
         }
+
+        $config = M('config')->where(array('id'=>17))->select();
+        $this->assign('config',$config[0]['value']);
         $this->display();
     }
 

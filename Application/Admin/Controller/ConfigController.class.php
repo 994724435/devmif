@@ -22,6 +22,22 @@ class ConfigController extends CommonController {
             $Config->where(array('id'=>13))->save(array('value'=>$_POST['huikui5']));
             $Config->where(array('id'=>14))->save(array('value'=>$_POST['huikui6']));
 
+            $Config->where(array('id'=>15))->save(array('value'=>$_POST['tixiannum']));
+            $Config->where(array('id'=>16))->save(array('value'=>$_POST['tixiantime']));
+
+            $Config->where(array('id'=>17))->save(array('value'=>$_POST['gongpai']));
+            if($_POST['jintai']){
+                $today = date('m-d',time());
+                $isdate = M("Rite")->where(array('date'=>$today))->select();
+                if($isdate[0]){
+                 M("Rite")->where(array('date'=>$today))->save(array('cont'=>$_POST['jintai'],'date'=>$today));
+
+                }else{
+                    $config= M("Config")->where(array('id'=>2))->select();
+                    M("Rite")->add(array('cont'=>$config[0]['value'],'date'=>$today));
+
+                }
+            }
             echo "<script>alert('修改成功');window.location.href = '".__ROOT__."/index.php/Admin/Config/index';</script>";
         }
         $result = $Config->order('id asc')->select();

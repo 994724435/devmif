@@ -87,11 +87,14 @@ class UserController extends CommonController{
 
 
     /*
-    * 静态
+    * 静态   1收益 2充值 3静态提现  4动态体现  5 注册下级 6下单购买 7退本 8静态转账 9动态转账 10静态收益 11 动态收益
      */
     public function jingtai(){
         $incomelog =M('incomelog');
-        $res = $incomelog->where(array('state'=>1,'type'=>10))->order(" id DESC ")->limit(15)->select();
+        $con['userid'] = session('uid');
+        $con['type']   =array('in',array(3,8,10));
+//        $con['state']   =array('in',array(1,2));
+        $res = $incomelog->where($con)->order(" id DESC ")->limit(18)->select();
         $this->assign('res',$res);
         $this->display();
     }
@@ -101,7 +104,10 @@ class UserController extends CommonController{
      */
     public function dongtai(){
         $incomelog =M('incomelog');
-        $res = $incomelog->where(array('state'=>1,'type'=>11))->order(" id DESC ")->limit(15)->select();
+        $con['userid'] = session('uid');
+        $con['type']   =array('in',array(4,9,11));
+
+        $res = $incomelog->where($con)->order(" id DESC ")->limit(18)->select();
         $this->assign('res',$res);
         $this->display();
     }
@@ -134,7 +140,7 @@ class UserController extends CommonController{
                 $data['state'] =2;
                 $data['reson'] ='下单购买';
                 $data['addymd'] =date('Y-m-d',time());
-                $data['addtime'] =date('Y-m-d H:i:s',time());
+                $data['addtime'] =time();
                 $data['orderid'] =session('uid');
                 $data['userid'] =session('uid');
                 $data['income'] =$needmoney;
@@ -155,6 +161,7 @@ class UserController extends CommonController{
                 M("orderlog")->add($order);
 
                 // 上家收益  tu do
+
                 if($userinfo[0]['fuid']){
                     // 查询多少人
                     $fids = $menber->where(array('fuid'=>$userinfo[0]['fuid']))->select();
@@ -163,6 +170,7 @@ class UserController extends CommonController{
 
                         $fidUserinfo = $menber->where(array('uid'=>$userinfo[0]['fuid']))->select();
                         $incomes = bcmul($lilv,$bi,2);
+                        $incomes = bcmul($incomes,$_POST['num'],2);
                         $dongbag = bcadd($fidUserinfo[0]['dongbag'],$incomes,2);
                         $menber->where(array('uid'=>$userinfo[0]['fuid']))->save(array('dongbag'=>$dongbag));
                         $income =M('incomelog');
@@ -187,39 +195,46 @@ class UserController extends CommonController{
             }
 
         }
-
+        $myorder = M("orderlog")->where(array('userid'=>session('uid'),'type'=>1))->select();
+        $count = 0;
+        foreach ($myorder as $v){
+            if($v['num']){
+                $count = $count + $v['num'];
+            }
+        }
+        $this->assign('count',$count);
         $this->assign('config',$config[0]);
         $this->display();
     }
 
     private function getflilv($count){
         $configboj =M('config');
-        if($count > 1 && $count < 3){   // 1
+        if($count > 1 && $count < 4){   // 1
 
            $lilv =  $configboj->where(array('id'=>3))->select();
            return $lilv[0]['value'];
 
-        }elseif ($count >3 && $count < 7){  // 2
+        }elseif ($count >3 && $count < 8){  // 2
 
             $lilv =  $configboj->where(array('id'=>4))->select();
             return $lilv[0]['value'];
 
-        }elseif ($count >7 && $count < 11){   // 3
+        }elseif ($count >7 && $count < 12){   // 3
 
             $lilv =  $configboj->where(array('id'=>5))->select();
             return $lilv[0]['value'];
 
-        }elseif ($count >11 && $count < 15){   // 4
+        }elseif ($count >11 && $count < 16){   // 4
 
             $lilv =  $configboj->where(array('id'=>6))->select();
             return $lilv[0]['value'];
 
-        }elseif ($count >11 && $count < 15){   // 5
+        }elseif ($count >15 && $count < 20){   // 5
 
             $lilv =  $configboj->where(array('id'=>7))->select();
             return $lilv[0]['value'];
 
-        }elseif ($count >15 && $count < 22){   // 6
+        }elseif ($count >20 && $count < 22){   // 6
 
             $lilv =  $configboj->where(array('id'=>8))->select();
             return $lilv[0]['value'];
@@ -235,16 +250,80 @@ class UserController extends CommonController{
 
     }
 
+
+    public function isTiXian($userid,$num){
+        $config = M('config');
+        // 是否最大金额
+        $nummax = $config->where(array('id'=>15))->select();
+        if($num < $nummax[0]['value']){
+            return "最低提现金额为".$nummax[0]['value'];
+        }
+
+        // 最大次数
+        $timemax = $config->where(array('id'=>16))->select();
+        $nowday = date("Y-m-d",time());
+        $cond['addymd'] = $nowday;
+        $cond['userid'] = $userid;
+        $cond['type'] = array('in',array(3,4));
+        $times = M('incomelog')->where($cond)->select();
+        $last = count($times);
+        if($last > $timemax[0]['value']){
+            return "最大提次数为".$timemax[0]['value'];
+        }else{
+            return '';
+        }
+
+
+
+    }
     /*
     * 我的团队
      */
     public function my_gruop(){
         $menber = M("menber");
-        $user = $menber->where(array('uid'=>session('uid')))->select();
+        $p_incomelog =M('incomelog');
+        $con['userid'] = session('uid');
+        $con['type'] = 11;
+        $con['userid'] =session('uid');
+//        $con['type'] =array('in',array(10,11));
+        $result = $p_incomelog->where($con)->order('id DESC')->select();
+        foreach ($result as $k=>$v){
+//            $user = $menber->where(array('uid'=>$v['userid']))->select();
+//            $result[$k]['username'] =$user[0]['name'];
+            $times = 0;
+            $usrinfo = $menber->where(array('uid'=>$v['orderid']))->select();
+            $fids =array_reverse(explode(',',$usrinfo[0]['fuids']));
+            foreach ($fids as $key=>$val){
+                if($val == session('uid')){
+                    $times = $key ;
+                    break;
+                }
+            }
+            $result[$k]['times'] =$this->changeTimes($times);
+            // 上级编号
+//            $shang = M('orderlog')->where(array('userid'=>$usrinfo[0]['fuid']))->order('logid DESC')->select();
+            $result[$k]['shang'] =$usrinfo[0]['fuid'];
+        }
 
+        $this->assign('res',$result);
         $this->display();
     }
 
+    private function changeTimes($times){
+        if($times ==1 ){
+            return "一";
+        }elseif ($times ==2 ){
+            return "二";
+        }elseif ($times == 3){
+            return "三";
+        }elseif ($times == 4 ){
+            return "四";
+        }elseif ($times ==5 ){
+            return "五";
+        }elseif ($times ==6 ){
+            return "六";
+        }
+    }
 
     function getMenuTree($arrCat, $parent_id = 0, $level = 0)
     {
@@ -279,15 +358,30 @@ class UserController extends CommonController{
         if($_POST){
             if($_POST['num']<=0){
                 echo "<script>alert('请输入正确金额在');";
-                echo "window.location.href='".__ROOT__."/index.php/Home/User/tixian_dong';";
+                echo "window.location.href='".__ROOT__."/index.php/Home/User/tixian_jing';";
                 echo "</script>";
                 exit;
             }
+            $istixian =$this->isTiXian(session('uid'),$_POST['num']);
+            if($istixian){
+                echo "<script>alert('".$istixian."');";
+                echo "window.location.href='".__ROOT__."/index.php/Home/User/tixian_jing';";
+                echo "</script>";
+                exit;
+            }
+
             $menber =M('menber');
             $res_user = $menber->where(array('uid'=>session('uid')))->select();
+            if($res_user[0]['jingbag'] < 20){
+                echo "<script>alert('静态钱包不足20');";
+                echo "window.location.href='".__ROOT__."/index.php/Home/User/tixian_jing';";
+                echo "</script>";
+                exit;
+            }
+
             if($res_user[0]['pwd2'] != $_POST['pwd2']){
                 echo "<script>alert('二级密码不正确');";
-                echo "window.location.href='".__ROOT__."/index.php/Home/User/tixian_dong';";
+                echo "window.location.href='".__ROOT__."/index.php/Home/User/tixian_jing';";
                 echo "</script>";
                 exit;
             }
@@ -334,8 +428,25 @@ class UserController extends CommonController{
                 echo "</script>";
                 exit;
             }
+
+            $istixian =$this->isTiXian(session('uid'),$_POST['num']);
+            if($istixian){
+                echo "<script>alert('".$istixian."');";
+                echo "window.location.href='".__ROOT__."/index.php/Home/User/tixian_dong';";
+                echo "</script>";
+                exit;
+            }
+
             $menber =M('menber');
             $res_user = $menber->where(array('uid'=>session('uid')))->select();
+            if($res_user[0]['jingbag'] < 20){
+                echo "<script>alert('动态钱包不足20');";
+                echo "window.location.href='".__ROOT__."/index.php/Home/User/tixian_jing';";
+                echo "</script>";
+                exit;
+            }
+
+
             if($res_user[0]['pwd2'] != $_POST['pwd2']){
                 echo "<script>alert('二级密码不正确');";
                 echo "window.location.href='".__ROOT__."/index.php/Home/User/tixian_dong';";
@@ -478,8 +589,8 @@ class UserController extends CommonController{
                 echo "</script>";
                 exit;
             }
-            if($res_user[0]['dongbag']<$_POST['num']){
-                echo "<script>alert('充值钱包余额不足');";
+            if($res_user[0]['jingbag']<$_POST['num']){
+                echo "<script>alert('静态钱包余额不足');";
                 echo "window.location.href='".__ROOT__."/index.php/Home/User/transfers_dong';";
                 echo "</script>";
                 exit;
