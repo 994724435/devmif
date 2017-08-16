@@ -233,8 +233,7 @@ class MenberController extends CommonController {
         $user= $menber->where(array('uid'=>$result[0]['userid']))->select();
         if($result[0]){
             if($_GET['state']==1){ // 提现成功
-                $data['state'] =2;
-                $income->where(array('id'=>$_GET['id']))->save($data);
+
 
                 // 收取提现利率
                 $chargebag = $user[0]['chargebag'];
@@ -246,10 +245,16 @@ class MenberController extends CommonController {
                     $config = M("config")->where(array('id'=>19))->select();
 
                 }
+
                 $feijing = bcmul($incomu,$config[0]['value'],2);
+                if($chargebag < $feijing){
+                    echo "<script>alert('钱包余额不足，手续费不能扣除');window.location.href = '".__ROOT__."/index.php/Admin/Menber/tixiansheng';</script>";exit();
+                }
                 $databag['chargebag'] =bcsub ($chargebag,$feijing,2);
                 $menber->where(array('uid'=>$result[0]['userid']))->save($databag);
 
+                $data['state'] =2;
+                $income->where(array('id'=>$_GET['id']))->save($data);
 //                $income =M('incomelog');
 //                $data['type'] =12;
 //                $data['state'] =2;
