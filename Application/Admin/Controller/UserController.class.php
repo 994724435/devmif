@@ -109,7 +109,7 @@ class UserController extends Controller {
 
         $config = M('config')->where(array('id'=>1))->select();
         $endmoney = bcmul(1.6,$config[0]['value']);
-
+        $endmoney = bcmul($endmoney,$num);
         if($daycome>=$endmoney){
             M('orderlog')->where(array('logid'=>$orderid))->save(array('states'=>2));
             return 0;

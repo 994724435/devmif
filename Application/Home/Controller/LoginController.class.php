@@ -100,10 +100,10 @@ class LoginController extends Controller{
 
             // 处理上家收益
             if($fid){
-                $config =M('config')->where(array('id'=>4))->select();
-
-                $fidincome['dongbag'] = bcadd($fidUserinfo[0]['dongbag'],$config[0]['value'],2);
-                $menber->where(array('uid'=>$fid))->save($fidincome);
+//                $config =M('config')->where(array('id'=>4))->select();
+//
+//                $fidincome['dongbag'] = bcadd($fidUserinfo[0]['dongbag'],$config[0]['value'],2);
+//                $menber->where(array('uid'=>$fid))->save($fidincome);
 
 //                $income =M('incomelog');
 //                $data['type'] =5;
