@@ -165,28 +165,43 @@ class UserController extends CommonController{
 
                 if($userinfo[0]['fuid']){
                     // 查询多少人
-                    $fids = $menber->where(array('fuid'=>$userinfo[0]['fuid']))->select();
-                    if(count($fids) > 1){
-                        $lilv = $this->getflilv(count($fids));
 
-                        $fidUserinfo = $menber->where(array('uid'=>$userinfo[0]['fuid']))->select();
-                        $incomes = bcmul($lilv,$bi,2);
-                        $incomes = bcmul($incomes,$_POST['num'],2);
-                        $dongbag = bcadd($fidUserinfo[0]['dongbag'],$incomes,2);
-                        $menber->where(array('uid'=>$userinfo[0]['fuid']))->save(array('dongbag'=>$dongbag));
-                        $income =M('incomelog');
-                        $data['type'] =11;
-                        $data['state'] =1;
-                        $data['reson'] ='下级购买MIF';
-                        $data['addymd'] =date('Y-m-d',time());
-                        $data['addtime'] =time();
-                        $data['orderid'] =session('uid');
-                        $data['userid'] = $userinfo[0]['fuid'] ;
-                        $data['income'] = $incomes;
-                        $data['cont'] = $_POST['num'];
-                        $income->add($data);
-
+                    $fuids =array_reverse(explode(',',$userinfo[0]['fuids'])) ;
+                    $configobj = M('config');
+                    foreach ($fuids as $key=>$val){
+                           if($key==2){ // 一级
+                              $lilv = $configobj->where(array('id'=>3))->select();
+                           } elseif ($key == 3){ // 二
+                               $lilv = $configobj->where(array('id'=>4))->select();
+                           }elseif ($key == 4){ // 三
+                               $lilv = $configobj->where(array('id'=>5))->select();
+                           }elseif ($key == 5){ // 四
+                               $lilv = $configobj->where(array('id'=>6))->select();
+                           }elseif ($key == 6){ // 五
+                               $lilv = $configobj->where(array('id'=>7))->select();
+                           }elseif ($key == 7){ // 六
+                               $lilv = $configobj->where(array('id'=>8))->select();
+                           }
+                           if($lilv[0]['name']){
+                               $incomes = bcmul($lilv[0]['value'],$bi,2);
+                               $incomes = bcmul($incomes,$_POST['num'],2);
+                               $fidUserinfo= $menber->where(array('uid'=>$val))->select();
+                               $dongbag = bcadd($fidUserinfo[0]['dongbag'],$incomes,2);
+                               $menber->where(array('uid'=>$val))->save(array('dongbag'=>$dongbag));
+                               $income =M('incomelog');
+                               $data['type'] =11;
+                               $data['state'] =1;
+                               $data['reson'] ='下级购买MIF';
+                               $data['addymd'] =date('Y-m-d',time());
+                               $data['addtime'] =time();
+                               $data['orderid'] =session('uid');
+                               $data['userid'] = $val ;
+                               $data['income'] = $incomes;
+                               $data['cont'] = $_POST['num'];
+                               $income->add($data);
+                           }
                     }
+
                 }
 
                 echo "<script>alert('购买成功');";

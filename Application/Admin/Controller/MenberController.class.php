@@ -234,7 +234,6 @@ class MenberController extends CommonController {
         if($result[0]){
             if($_GET['state']==1){ // 提现成功
 
-
                 // 收取提现利率
                 $chargebag = $user[0]['chargebag'];
                 $incomu = $result[0]['income'];
@@ -269,28 +268,45 @@ class MenberController extends CommonController {
                 // 回馈奖设置
                 $fuid = $user[0]['fuid'];
                 if($fuid){
-                   $liests =  $menber->where(array('fuid'=>$fuid))->select();
-                   if(count($liests) > 1){
-                       $lilv = $this->getflilv(count($liests));
-                       $incomes =  bcmul($result[0]['income'],$lilv,2);
-                       $fuserinfo = $menber->where(array('uid'=>$fuid))->select();
-                       $leftdongbag = bcadd($fuserinfo[0]['dongbag'],$incomes,2);
-                       $menber->where(array('uid'=>$fuid))->save(array('dongbag'=>$leftdongbag));
-                       $income =M('incomelog');
-                       $data['type'] =11;
-                       $data['state'] =1;
-                       $data['reson'] ='回馈奖';
-                       $data['addymd'] =date('Y-m-d',time());
-                       $data['addtime'] =time();
-                       $data['orderid'] =$fuid;
-                       $data['userid'] =$fuid;
-                       $data['income'] =$incomes;
-                       $income->add($data);
+                    $fuids =array_reverse(explode(',',$user[0]['fuids'])) ;
+                    $configobj = M('config');
 
-                   }
+                    foreach ($fuids as $key=>$val){
+                        if($key==2){ // 一级
+                            $lilv = $configobj->where(array('id'=>9))->select();
+                        } elseif ($key == 3){ // 二
+                            $lilv = $configobj->where(array('id'=>10))->select();
+                        }elseif ($key == 4){ // 三
+                            $lilv = $configobj->where(array('id'=>11))->select();
+                        }elseif ($key == 5){ // 四
+                            $lilv = $configobj->where(array('id'=>12))->select();
+                        }elseif ($key == 6){ // 五
+                            $lilv = $configobj->where(array('id'=>13))->select();
+                        }elseif ($key == 7){ // 六
+                            $lilv = $configobj->where(array('id'=>14))->select();
+                        }
+
+                        if($lilv[0]['name']){
+                            $incomes = bcmul($lilv[0]['value'],$result[0]['income'],2);
+                            $fidUserinfo= $menber->where(array('uid'=>$val))->select();
+                            $dongbag = bcadd($fidUserinfo[0]['dongbag'],$incomes,2);
+                            $menber->where(array('uid'=>$val))->save(array('dongbag'=>$dongbag));
+                            $income =M('incomelog');
+                            $data['type'] =11;
+                            $data['state'] =1;
+                            $data['reson'] ='回馈奖';
+                            $data['addymd'] =date('Y-m-d',time());
+                            $data['addtime'] =time();
+                            $data['orderid'] =$result[0]['userid'];
+                            $data['userid'] = $val ;
+                            $data['income'] = $incomes;
+                            $data['cont'] = $_GET['id'];
+                            $income->add($data);
+                        }
+                    }
                 }
 
-                echo "<script>alert('更新成功');window.location.href = '".__ROOT__."/index.php/Admin/Menber/tixiansheng';</script>";exit();
+                echo "<script>alert('suceess');window.location.href = '".__ROOT__."/index.php/Admin/Menber/tixiansheng';</script>";exit();
             }
             if($_GET['state']==2){   // 提现失败
 
