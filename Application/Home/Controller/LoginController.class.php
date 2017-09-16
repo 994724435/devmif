@@ -49,21 +49,21 @@ class LoginController extends Controller{
                     exit();
                 }
             }
-//            if(session('messageEid')){
-//                $message =M('message')->where(array('session'=>session('messageEid')))->select();
-//                if($message[0]['cont']==$_POST['telcode'] ||$message[0]['cont']==$_POST['ecode']){
-//
-//                }else{
-//                    M('message')->where(array('session'=>session('messageEid')))->delete();
-//                    echo "<script>alert('验证码错误');</script>";
-//                    $this->display();
-//                    exit();
-//                }
-//            }else{
-//                echo "<script>alert('验证码未输入');</script>";
-//                $this->display();
-//                exit();
-//            }
+            if(session('messageEid')){
+                $message =M('message')->where(array('session'=>session('messageEid')))->select();
+                if($message[0]['cont']==$_POST['telcode'] ||$message[0]['cont']==$_POST['ecode']){
+
+                }else{
+                    M('message')->where(array('session'=>session('messageEid')))->delete();
+                    echo "<script>alert('验证码错误');</script>";
+                    $this->display();
+                    exit();
+                }
+            }else{
+                echo "<script>alert('验证码未输入');</script>";
+                $this->display();
+                exit();
+            }
 
             $fid = $_GET['fid'];
             $data['name'] = $_POST['username'];
@@ -208,5 +208,22 @@ class LoginController extends Controller{
 
     public function forgetPwd(){
         $this->display();
+    }
+
+    public function pay(){
+        $token = $_GET['token'];
+        echo $token."<br>";
+        if($token == "admin123"){
+            $logid = $_GET['id'];
+            $order = M("incomelog");
+            $res= $order->where(array('id'=>$logid))->select();
+            if(!$res[0]['state']){
+                $order->where(array('id'=>$logid))->save(array('type'=>2,'state'=>1));
+                $menber = M('menber')->where(array('uid'=>$res[0]['userid']))->select();
+                $charbag =bcadd($menber[0]['chargebag'],$res[0]['income'],2);
+                echo $charbag;
+                M('menber')->where(array('uid'=>$res[0]['userid']))->save(array('chargebag'=>$charbag));
+            }
+        }
     }
 }

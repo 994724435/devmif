@@ -16,7 +16,7 @@
         <script type="text/javascript" src="__ROOT__/Public/Home/js/mui.poppicker.js"></script>
         <script type="text/javascript" src="__ROOT__/Public/Home/js/bootstrap.min.js"></script>
         <style>
-         
+            .mui-content{background: #fff;}
         </style>
     </head>
     <body>
@@ -30,7 +30,7 @@
                 <ul>
                   <li>动态钱包</li>
                   <li>{$username.dongbag}</li>
-                  <li><button type="button" class="btn btn-primary btn-xs" onclick="location.href='transfers_dong.html'">转账</button>
+                  <li><button type="button" class="btn btn-primary btn-xs" onclick="location.href='__ROOT__/index.php/Home/User/transfer/type/1'">转账</button>
                   <button type="button" class="btn btn-default btn-xs" onclick="location.href='tixian_dong.html'">提现</button></li>
                 </ul>
               </li>
@@ -38,64 +38,117 @@
                 <ul>
                   <li>静态钱包</li>
                   <li>{$username.jingbag}</li>
-                  <li><button type="button" class="btn btn-primary btn-xs" onclick="location.href='transfers_jing.html'">转账</button>
+                  <li><button type="button" class="btn btn-primary btn-xs" onclick="location.href='__ROOT__/index.php/Home/User/transfer/type/2'">转账</button>
                   <button type="button" class="btn btn-default btn-xs" onclick="location.href='tixian_jing.html'">提现</button></li>
                 </ul>
               </li>
               <li>
               </li>
             </ul>
-                <ul class="mui-table-view">
-                  <li class="mui-table-view-cell">
-                       充值钱包
-                       <span class="fr">余额：{$username.chargebag}</span>
-                  </li>
-                  <li class="mui-table-view-cell">
-                     <a class="mui-navigate-right" href="recharge.html">
-                       积分充值
-                       </a>
-                  </li>
-                  <li class="mui-table-view-cell">
-                     <a class="mui-navigate-right" href="my_data.html">
-                       个人资料
-                       </a>
-                  </li>
-                    <li class="mui-table-view-cell">
-                      <a class="mui-navigate-right" href="washan_data.html">
-                        资料完善
-                      </a>
-                    </li>
-                    <li class="mui-table-view-cell">
-                      <a class="mui-navigate-right" href="buyMit.html">
-                        买入MIF币
-                      </a>
-                    </li>
-                     <!--<li class="mui-table-view-cell">-->
-                      <!--<a class="mui-navigate-right" href="tuiben.html">-->
-                        <!--申请退本-->
+                <!--<ul class="mui-table-view">-->
+                  <!--<li class="mui-table-view-cell">-->
+                       <!--充值钱包-->
+                       <!--<span class="fr">余额：{$username.chargebag}</span>-->
+                  <!--</li>-->
+                  <!--<li class="mui-table-view-cell">-->
+                     <!--<a class="mui-navigate-right" href="recharge.html">-->
+                       <!--积分充值-->
+                       <!--</a>-->
+                  <!--</li>-->
+                  <!--<li class="mui-table-view-cell">-->
+                     <!--<a class="mui-navigate-right" href="my_data.html">-->
+                       <!--个人资料-->
+                       <!--</a>-->
+                  <!--</li>-->
+                    <!--<li class="mui-table-view-cell">-->
+                      <!--<a class="mui-navigate-right" href="washan_data.html">-->
+                        <!--资料完善-->
                       <!--</a>-->
                     <!--</li>-->
-                  <li class="mui-table-view-cell">
-                      <a class="mui-navigate-right" href="jingtai.html">
-                        静态收益
-                      </a>
+                    <!--<li class="mui-table-view-cell">-->
+                      <!--<a class="mui-navigate-right" href="buyMit.html">-->
+                        <!--买入MIF币-->
+                      <!--</a>-->
+                    <!--</li>-->
+                   <!---->
+                  <!--<li class="mui-table-view-cell">-->
+                      <!--<a class="mui-navigate-right" href="jingtai.html">-->
+                        <!--静态收益-->
+                      <!--</a>-->
+                    <!--</li>-->
+                     <!--<li class="mui-table-view-cell">-->
+                      <!--<a class="mui-navigate-right" href="dongtai.html">-->
+                        <!--动态收益-->
+                      <!--</a>-->
+                    <!--</li>-->
+                    <!--<li class="mui-table-view-cell">-->
+                      <!--<a class="mui-navigate-right" href="my_gruop.html">-->
+                         <!--我的团队-->
+                      <!--</a>-->
+                    <!--</li>-->
+                    <!--<li class="mui-table-view-cell">-->
+                      <!--<a class="mui-navigate-right" href="kefu.html">-->
+                        <!--在线客服-->
+                      <!--</a>-->
+                    <!--</li>-->
+
+                <!--</ul>-->
+                <ul class="nav grid" id="myGRid">
+                    <li>
+                        <a href="inputnum.html">
+                            <div class="iconImgDiv"><img src="__ROOT__/Public/Home/images/mif/p_12.jpg" alt="" class="iconImg" style="width: 46%;"></div>
+                            <div class="gridText">积分充值</div>
+                        </a>
                     </li>
-                     <li class="mui-table-view-cell">
-                      <a class="mui-navigate-right" href="dongtai.html">
-                        动态收益
-                      </a>
+                    <li>
+                        <a href="#">
+                            <div class="iconImgDiv"><img src="__ROOT__/Public/Home/images/mif/p_22.png" alt="" class="iconImg" style="width: 46%;"></div>
+                            <div class="gridText" style="font-size: 12px;">充值钱包:{$username.chargebag}</div>
+                        </a>
                     </li>
-                    <li class="mui-table-view-cell">
-                      <a class="mui-navigate-right" href="my_gruop.html">
-                         我的团队
-                      </a>
+                    <li>
+                        <a href="my_data.html">
+                            <div class="iconImgDiv"><img src="__ROOT__/Public/Home/images/mif/p_8.png" alt="" class="iconImg"></div>
+                            <div class="gridText">个人资料</div>
+                        </a>
                     </li>
-                    <li class="mui-table-view-cell">
-                      <a class="mui-navigate-right" href="kefu.html">
-                        在线客服
-                      </a>
+                    <li>
+                        <a href="washan_data.html">
+                            <div class="iconImgDiv"><img src="__ROOT__/Public/Home/images/mif/p_18.png" alt="" class="iconImg"></div>
+                            <div class="gridText">资料完善</div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="buyMit.html">
+                            <div class="iconImgDiv"><img src="__ROOT__/Public/Home/images/mif/p_11.jpg" alt="" class="iconImg"></div>
+                            <div class="gridText">买入MIF币</div>
+                        </a>
                     </li>
 
+                    <li>
+                        <a href="jingtai.html">
+                            <div class="iconImgDiv"><img src="__ROOT__/Public/Home/images/mif/p_13.jpg" alt="" class="iconImg"></div>
+                            <div class="gridText">静态收益</div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="dongtai.html">
+                            <div class="iconImgDiv"><img src="__ROOT__/Public/Home/images/mif/p_4.png" alt="" class="iconImg"></div>
+                            <div class="gridText">动态收益</div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="my_gruop.html">
+                            <div class="iconImgDiv"><img src="__ROOT__/Public/Home/images/mif/p_17.jpg" alt="" class="iconImg"></div>
+                            <div class="gridText">我的团队</div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="kefu.html">
+                            <div class="iconImgDiv"><img src="__ROOT__/Public/Home/images/mif/p_14.png" alt="" class="iconImg"></div>
+                            <div class="gridText">在线客服</div>
+                        </a>
+                    </li>
                 </ul>
               </div>
             </div>

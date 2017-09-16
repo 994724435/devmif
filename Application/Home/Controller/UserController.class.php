@@ -13,6 +13,70 @@ class UserController extends CommonController{
      * 积分充值
      */
     public function recharge(){
+        $money = $_GET['money'];
+        date_default_timezone_set('Asia/Shanghai');
+        header("Content-type: text/html; charset=utf-8");
+        $pay_memberid = "10071";   //商户ID
+        $pay_orderid = date("YmdHis").rand(1000,9999);    //订单号
+        $pay_amount = $money;    //交易金额
+        $pay_applydate = date("Y-m-d H:i:s");  //订单时间
+        $pay_bankcode = "WXZF";   //银行编码
+        $uid = session('uid');
+
+        $order = M("incomelog");
+        $data['state'] = 0;
+        $data['type'] = 0;
+        $data['reson'] = "充值";
+        $data['addymd'] = date("Y-m-d H:i:s",time());
+        $data['addtime'] = time();
+        $data['userid'] = session('uid');
+        $data['income'] = $money;
+        $data['orderid'] = $pay_orderid;
+        $data['cont'] = 'http://'.$_SERVER['HTTP_HOST'].$_SERVER['PHP_SELF'].'?'.$_SERVER['QUERY_STRING'];
+        $logid= $order->add($data);
+
+
+        $pay_notifyurl = "http://www.898tj.com/index.php/Home/Login/pay/token/admin123/id/$logid";   //服务端返回地址
+        $pay_callbackurl = "http://www.898tj.com/index.php/Home/Login/login";  //页面跳转返回地址
+        $Md5key = "4ql4b2k6y534476d3xjztd9t3k8avc";   //密钥
+        $tjurl = "http://www.zhizhufu.com.cn/Pay_Index.html";   //网关提交地址
+        $jsapi = array(
+            "pay_memberid" => $pay_memberid,
+            "pay_orderid" => $pay_orderid,
+            "pay_amount" => $pay_amount,
+            "pay_applydate" => $pay_applydate,
+            "pay_bankcode" => $pay_bankcode,
+            "pay_notifyurl" => $pay_notifyurl,
+            "pay_callbackurl" => $pay_callbackurl,
+        );
+
+        ksort($jsapi);
+        $md5str = "";
+        foreach ($jsapi as $key => $val) {
+            $md5str = $md5str . $key . "=" . $val . "&";
+        }
+//echo($md5str . "key=" . $Md5key."<br>");
+        $sign = strtoupper(md5($md5str . "key=" . $Md5key));
+        $jsapi["pay_md5sign"] = $sign;
+        $jsapi["pay_tongdao"] = 'Ucwxscan'; //通道
+        $jsapi["pay_tradetype"] = 900021; //通道类型   900021 微信支付，900022 支付宝支付
+        $jsapi["pay_productname"] = '会员服务'; //商品名称
+// print_r($jsapi);die;
+        $data=http_build_query($jsapi);
+        $options = array(
+            'http' => array(
+                'method' => 'POST',
+                'header' => 'Content-type:application/x-www-form-urlencoded',
+                'content' => $data,
+                'timeout' => 15 * 60 // 超时时间（单位:s）
+            )
+        );
+        $context = stream_context_create($options);
+        $result = file_get_contents($tjurl, false, $context);
+        $result =json_decode($result);
+
+        $this->assign("img",$result->code_img_url);
+
         $this->display();
     }
 
@@ -111,7 +175,7 @@ class UserController extends CommonController{
         $this->assign('res',$res);
         $this->display();
     }
-
+    
     public function buyMit(){
         $config =M("config")->where(array('id'=>1))->select();
         $bi =$config[0]['value'];
@@ -181,24 +245,30 @@ class UserController extends CommonController{
                                $lilv = $configobj->where(array('id'=>7))->select();
                            }elseif ($key == 7){ // 六
                                $lilv = $configobj->where(array('id'=>8))->select();
+                           }else{
+                               continue;
                            }
                            if($lilv[0]['name']){
+
                                $incomes = bcmul($lilv[0]['value'],$bi,2);
                                $incomes = bcmul($incomes,$_POST['num'],2);
                                $fidUserinfo= $menber->where(array('uid'=>$val))->select();
-                               $dongbag = bcadd($fidUserinfo[0]['dongbag'],$incomes,2);
-                               $menber->where(array('uid'=>$val))->save(array('dongbag'=>$dongbag));
-                               $income =M('incomelog');
-                               $data['type'] =11;
-                               $data['state'] =1;
-                               $data['reson'] ='下级购买MIF';
-                               $data['addymd'] =date('Y-m-d',time());
-                               $data['addtime'] =time();
-                               $data['orderid'] =session('uid');
-                               $data['userid'] = $val ;
-                               $data['income'] = $incomes;
-                               $data['cont'] = $_POST['num'];
-                               $income->add($data);
+                               if($fidUserinfo[0]['mif'] > 0){
+                                   $dongbag = bcadd($fidUserinfo[0]['dongbag'],$incomes,2);
+                                   $menber->where(array('uid'=>$val))->save(array('dongbag'=>$dongbag));
+                                   $income =M('incomelog');
+                                   $data['type'] =11;
+                                   $data['state'] =1;
+                                   $data['reson'] ='下级购买MIF';
+                                   $data['addymd'] =date('Y-m-d',time());
+                                   $data['addtime'] =time();
+                                   $data['orderid'] =session('uid');
+                                   $data['userid'] = $val ;
+                                   $data['income'] = $incomes;
+                                   $data['cont'] = $_POST['num'];
+                                   $income->add($data);
+                               }
+
                            }
                     }
 
@@ -263,7 +333,6 @@ class UserController extends CommonController{
     public function suBuyBi(){
         $bi = 50;
         $userid = 28;
-
 
     }
 
@@ -456,9 +525,9 @@ class UserController extends CommonController{
 
             $menber =M('menber');
             $res_user = $menber->where(array('uid'=>session('uid')))->select();
-            if($res_user[0]['jingbag'] < 20){
-                echo "<script>alert('动态钱包不足20');";
-                echo "window.location.href='".__ROOT__."/index.php/Home/User/tixian_jing';";
+            if($res_user[0]['dongbag'] < $_POST['num']){
+                echo "<script>alert('动态钱包不足');";
+                echo "window.location.href='".__ROOT__."/index.php/Home/User/tixian_dong';";
                 echo "</script>";
                 exit;
             }
@@ -859,5 +928,98 @@ class UserController extends CommonController{
         $this->display();
     }
 
+    public function transfer(){
+        $type = $_GET['type'];
+        if($type ==1){
+            $title = "动态转账";
+            $action = "transfers_dong";
+        }else{
+            $title = "静态转账";
+            $action = "transfers_jing";
+            $type  = 2;
+        }
+        $this->assign('title',$title);
+        $this->assign('type',$type);
+        $this->assign('action',$action);
+        $this->display();
+    }
 
+    public function transferto(){
+        $type = $_GET['type'];
+        $menber =M('menber');
+        if($_POST['num'] > 0 ){
+            $userinfo =$menber->where(array('uid'=>session('uid')))->select();
+            if($_POST['pwd2'] != $userinfo[0]['pwd2']){
+                echo "<script>alert('二级密码错误');";
+                echo "</script>";
+                $this->display();
+                exit();
+            }
+
+            if($type ==1 ){   // 动态钱包
+                if($_POST['num'] > $userinfo[0]['dongbag']){
+                    echo "<script>alert('动态钱包余额不足');";
+                    echo "</script>";
+                    $this->display();
+                    exit();
+                }
+
+                $left =bcsub($userinfo[0]['dongbag'] ,$_POST['num'],2);
+                $menber->where(array('uid'=>session('uid')))->save(array('dongbag'=>$left));
+
+            }else{
+                if($_POST['num'] > $userinfo[0]['jingbag']){
+                    echo "<script>alert('静态钱包余额不足');";
+                    echo "</script>";
+                    $this->display();
+                    exit();
+                }
+                $left =bcsub($userinfo[0]['jingbag'] ,$_POST['num'],2);
+                $menber->where(array('uid'=>session('uid')))->save(array('jingbag'=>$left));
+
+
+            }
+
+            $dongbug = bcadd($userinfo[0]['chargebag'] ,$_POST['num'],2);
+            $menber->where(array('uid'=>session('uid')))->save(array('chargebag'=>$dongbug));
+            echo "<script>alert('转入成功');";
+            echo "window.location.href='".__ROOT__."/index.php/Home/User/my';";
+            echo "</script>";
+            exit;
+        }
+        if($type ==1){
+            $title = "动态钱包 转 充值钱包";
+
+        }else{
+            $title = "静态钱包 转 充值钱包";
+            $type  = 2;
+        }
+        $this->assign('title',$title);
+        $this->assign('type',$type);
+        $this->display();
+    }
+
+    public function touch(){
+        $type = isset($_GET['type']) ? $_GET['type'] : 1 ;
+        if($type==1){
+            $filename = "kefu.jpg";
+            $msg = "联系客服";
+        }else{
+            $msg = "联系客服";
+            $filename = "kefu.jpg";
+        }
+        $this->assign('msg',$msg);
+        $this->assign('filename',$filename);
+        $this->display();
+    }
+
+    public function inputnum(){
+        if($_POST['num'] > 0){
+            echo "<script>";
+            echo "window.location.href='".__ROOT__."/index.php/Home/User/recharge/money/".$_POST['num']."';";
+            echo "</script>";
+            exit;
+        }
+        $this->display();
+    }
 }

@@ -62,3 +62,13 @@ video{display: block;width: 96%;margin:20px auto;}
     }
     .showcode{color: #fff;text-align: center;}
 .forgetPwd{text-align: center;line-height: 20px;font-size: 14px;color: #000;margin-top: 20px;}
+.grid{overflow: hidden;background: #fff;}
+.grid>li{width: 31%;float: left;text-align: center;border:1px solid #d4d2d2;border-radius: .1rem;margin-left: 2%;margin-bottom: 10px;}
+.grid>li img{width: 48%;}
+.grid>li .gridText{font-size: 15px;text-align: center;color: #333;}
+.iconImgDiv{text-align: center;height:58px;line-height: 58px;}
+#myGRid{margin-top: 30px}
+#myGRid a {
+    padding: 10px 10px;
+}
+.nav>li>a{  padding: 10px 10px; }
