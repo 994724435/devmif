@@ -1,46 +1,74 @@
-*{margin: 0;padding: 0;font-family: "微软雅黑";}
+*{margin:0;padding: 0;font-family: "微软雅黑";}
+.fr{float: right;}
+.fl{float: left;}
 li{list-style: none;}
-.mui-bar-nav{box-shadow: none;-webkit-box-shadow: none; background: #04cbd9;}
+.panel-primary>.panel-heading{overflow: hidden;}
+body{background: #fff;}
+.centerImg{display: block;margin:0 auto;}
+#collapseListGroup1  .list-group-item{padding: 0;}
+#collapseListGroup1 .list-group-item a{display: block;padding: 10px 15px;color:#000;}
+.introduce{font-size: 15px;color: #000;text-indent:25px;line-height: 25px;padding: 10px 0;}
+.noPadding {
+   padding: 0;
+}
+.logoImg{width: 58px;}
+a:active{text-decoration: none;}
+.bodyColor{background-color: #efeff4;}
+.mynavbar{
+ background-color: #fff;
+}
+.navbar-default .navbar-nav>li>a{color: #000;font-size: 15px;}
+.userInfo{color:#000;font-size: 15px;margin-left: 10px}
+.tab {
+    padding: 0 0 30px 0;
+    background: #fff;
+    height: 80px;
+    margin-bottom: 0;
+}
+.tab>li {
+    width: 50%;
+    float: left;
+    text-align: center;
+}
+.tab .btn-primary{margin-left: 0px;margin-right: 20px}
+.mui-bar-nav{box-shadow: none;-webkit-box-shadow: none; background: #337ab7;}
     .mui-title,.mui-icon-left-nav {color: #fff;}
 .mui-icon-arrowleft,.mui-title,.mui-bar .mui-btn-nav.mui-pull-left{color:#fff;}
-@font-face {font-family: "iconfont";
-  src: url('../icon/iconfont.eot?t=1486260639720'); /* IE9*/
-  src: url('../icon/iconfont.eot?t=1486260639720#iefix') format('embedded-opentype'), /* IE6-IE8 */
-  url('../icon/iconfont.woff?t=1486260639720') format('woff'), /* chrome, firefox */
-  url('../icon/iconfont.ttf?t=1486260639720') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+*/
-  url('../icon/iconfont.svg?t=1486260639720#iconfont') format('svg'); /* iOS 4.1- */
+.mui-input-row label{font-size: 16px;font-weight: normal;}
+.mui-btn-block {
+    width: 80%;
+    margin: 20px auto;
+    padding: 8px 0;
+    background: #337ab7;
+    color: #fff;
+    font-family: "微软雅黑";
 }
-
-
-.iconfont {
-  font-family:"iconfont" !important;
-  font-size:16px;
-  font-style:normal;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+.mui-input-group{background: transparent;}
+.mui-input-group .mui-input-row{background: #fff;}
+.flex{display: flex;background: #fff;border-bottom: 1px solid #eee;margin-bottom: 0;}
+.flex>li{flex:1;height: 35px;line-height: 35px;text-align: center;}
+.flex .time{color: #999;font-size: 12px;}
+.codeiMG{width: 80%;display: block;margin:0 auto;}
+.codeTIP{text-align: center;height: 50px;line-height: 50px;font-size: 14px;}
+.panel-body{word-wrap:break-word;
+word-break:break-all;}
+video{display: block;width: 96%;margin:20px auto;}
+#login ::-webkit-input-placeholder { /* WebKit browsers */
+    color: #fff;
 }
-
-.icon-shezhi:before { content: "\e60c"; }
-
-.icon-shujuhuizong:before { content: "\e602"; }
-
-.icon-iconfontweibiaoti1:before { content: "\e614"; }
-
-.icon-icontuoyun:before { content: "\e601"; }
-
-.icon-saomiao:before { content: "\e65d"; }
-
-.icon-qianshoujilu:before { content: "\e60b"; }
-
-.icon-gongzuo:before { content: "\e612"; }
-
-.icon-danweidizhi:before { content: "\e605"; }
-
-.icon-danwei:before { content: "\e6a6"; }
-
-.icon-dingdanchaxun:before { content: "\e693"; }
-
-.icon-kaidan_h1:before { content: "\e608"; }
-.mui-input-row label{font-size: 15px;font-family: "微软雅黑";}
-.mui-input-group input:last-child,.mui-input-row label~input{font-size: 15px;font-family: "微软雅黑";}
-.mui-btn-block{width: 80%;margin:20px auto;padding:8px 0;background: #04cbd9;color: #fff;font-family: "微软雅黑";}
+.logoI{width: 50%;margin:10px auto 10px;}
+    #login ::-webkit-input-placeholder { /* WebKit browsers */
+    color: #fff;
+    }
+    .showcode{color: #fff;text-align: center;}
+.forgetPwd{text-align: center;line-height: 20px;font-size: 14px;color: #000;margin-top: 20px;}
+.grid{overflow: hidden;background: #fff;}
+.grid>li{width: 31%;float: left;text-align: center;border:1px solid #d4d2d2;border-radius: .1rem;margin-left: 2%;margin-bottom: 10px;}
+.grid>li img{width: 48%;}
+.grid>li .gridText{font-size: 15px;text-align: center;color: #333;}
+.iconImgDiv{text-align: center;height:58px;line-height: 58px;}
+#myGRid{margin-top: 30px}
+#myGRid a {
+    padding: 10px 10px;
+}
+.nav>li>a{  padding: 10px 10px; }
